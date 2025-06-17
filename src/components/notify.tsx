@@ -15,11 +15,13 @@ interface NotifyProps {
 
 function Notify(props: NotifyProps) {
     const [isActive, setIsActive] = React.useState(true);
+    const [isFocus, setIsFocus] = React.useState(false);
+
     const _this = React.useRef<HTMLDivElement>(null);
 
     return (
-        <div className={"notify-wrapper " + (isActive ? "" : "notify-hide")} ref={_this}>
-            <Button className='trigger-only' onPress={()=>{
+        <div className={"notify-base " + (isActive ? "" : "notify-hide ") + (isFocus ? "notify-focused" : "")} ref={_this}>
+            <Button className='trigger-only' disableRipple onPress={()=>{
                 setIsActive(false);
                 if (props.onPress) props.onPress();
                 setTimeout(() => {
@@ -27,12 +29,20 @@ function Notify(props: NotifyProps) {
                     if (props.onRemove) props.onRemove();
                 }, 320);
             }} tabIndex={-1}>
-                <a className={`notify notify-${props.alignment} animation-wrapper ` + (isActive ? "notify-active" : "notify-hide")} tabIndex={0}>
-                    <div className="animation-container">
-                        <div className="osu-animate-background"></div>
-                    </div>
-                    {props.children}
-                </a>
+                <div className={"notify-wrapper " + (isActive ? "" : "notify-hide ") + (isFocus ? "notify-focused" : "")} tabIndex={0}
+                    onFocus={()=>{
+                        setIsFocus(true);
+                    }} onBlur={()=>{
+                        setIsFocus(false);
+                    }}
+                >
+                    <a className={`notify notify-${props.alignment} animation-wrapper ` + (isActive ? "notify-active " : "notify-hide ") + (isFocus ? "notify-focused" : "")} tabIndex={-1}>
+                        <div className="animation-container">
+                            <div className="osu-animate-background"></div>
+                        </div>
+                        {props.children}
+                    </a>
+                </div>
             </Button>
         </div>
     )

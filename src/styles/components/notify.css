@@ -2,18 +2,22 @@
     --- Notify Style
     default alignment is left
 */
-.notify-wrapper:not(.notify-hide) {
+.notify-base, .notify-wrapper {
+    outline: none;
+    position: relative;
+}
+.notify-base:not(.notify-hide) {
     position: relative;
     animation: .24s animation-notify-up cubic-bezier(0.075, 0.82, 0.165, 1) both;
     margin-bottom: 8px;
 }
-.notify-container[data-alignment="left"] .notify-wrapper:not(.notify-hide) {
+.notify-container[data-alignment="left"] .notify-base:not(.notify-hide) {
     animation: .24s animation-notify-left cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-.notify-container[data-alignment="right"] .notify-wrapper:not(.notify-hide) {
+.notify-container[data-alignment="right"] .notify-base:not(.notify-hide) {
     animation: .24s animation-notify-right cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-.notify-wrapper.notify-hide {
+.notify-base.notify-hide {
     display: none;
     position: relative;
     animation: .24s animation-notify-hide cubic-bezier(0.075, 0.82, 0.165, 1) both;
@@ -81,21 +85,21 @@
     }
 }
 
-.notify:not(:hover, :focus)::before {
+.notify-wrapper:not(:hover, :focus) .notify::before {
   box-shadow: 0px 0px 64px 6px hsl(var(--osu-theme-primary) / 0);
 }
-.notify-container[data-alignment="left"] .notify-wrapper:not(:hover, :focus),
-.notify-wrapper:not(.notify-right):not(:hover, :focus) {
+.notify-container[data-alignment="left"] .notify-base:not(:hover, .notify-focused),
+.notify-base:not(.notify-right):not(:hover, .notify-focused) {
   transform: translateX(-86%);
 }
-.notify-container[data-alignment="right"] .notify-wrapper:not(:hover, :focus),
-.notify-wrapper.notify-right:not(:hover, :focus) {
+.notify-container[data-alignment="right"] .notify-base:not(:hover, .notify-focused),
+.notify-base.notify-right:not(:hover, .notify-focused) {
   transform: translateX(74%);
 }
-.notify-container[data-alignment="left"] .notify-wrapper:not(:hover, :focus),
-.notify-wrapper:not(.notify-right):not(:hover, :focus),
-.notify-container[data-alignment="right"] .notify-wrapper:not(:hover, :focus),
-.notify-wrapper.notify-right:not(:hover, :focus) {
+.notify-container[data-alignment="left"] .notify-base:not(:hover, .notify-focused),
+.notify-base:not(.notify-right):not(:hover, .notify-focused),
+.notify-container[data-alignment="right"] .notify-base:not(:hover, .notify-focused),
+.notify-base.notify-right:not(:hover, .notify-focused) {
   filter: brightness(.86) saturate(.86) contrast(.86) opacity(.86);
 }
 
