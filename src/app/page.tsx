@@ -1,5 +1,7 @@
 "use client";
+import { createNotification } from "@/components/notify";
 import { Button } from "@heroui/react";
+import { InfoIcon } from "@phosphor-icons/react/dist/ssr";
 
 export default function Home() {
   return (
@@ -48,6 +50,50 @@ export default function Home() {
             <div className="osu-animate-background opacity-0 group-focus-visible:opacity-100 group-active:opacity-100 group-hover:opacity-100"></div>
           </div>
           Button
+        </Button>
+      </div>
+      <div className="flex items-center gap-6">
+        <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full"
+          style={{"--osu-theme-button-background-color-hsl": "var(--osu-theme-primary)"} as React.CSSProperties}
+          onPress={()=>{
+            createNotification("left", InfoIcon, "Test Notify!")
+          }}>
+          <div className="animation-container">
+            <div className="osu-animate-background opacity-0 group-focus-visible:opacity-100 group-active:opacity-100 group-hover:opacity-100"></div>
+          </div>
+          Create Minimal Left Notify
+        </Button>
+        <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full"
+          style={{"--osu-theme-button-background-color-hsl": "var(--osu-theme-primary)"} as React.CSSProperties}
+          onPress={()=>{
+            createNotification("right", InfoIcon, "Test Notify!")
+          }}>
+          <div className="animation-container">
+            <div className="osu-animate-background opacity-0 group-focus-visible:opacity-100 group-active:opacity-100 group-hover:opacity-100"></div>
+          </div>
+          Create Minimal Right Notify
+        </Button>
+      </div>
+      <div className="flex items-center gap-6">
+        <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full"
+          style={{"--osu-theme-button-background-color-hsl": "var(--osu-theme-primary)"} as React.CSSProperties}
+          onPress={()=>{
+            createNotification("left", InfoIcon, "Test Notify!", "This is a test notify")
+          }}>
+          <div className="animation-container">
+            <div className="osu-animate-background opacity-0 group-focus-visible:opacity-100 group-active:opacity-100 group-hover:opacity-100"></div>
+          </div>
+          Create Left Notify
+        </Button>
+        <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full"
+          style={{"--osu-theme-button-background-color-hsl": "var(--osu-theme-primary)"} as React.CSSProperties}
+          onPress={()=>{
+            createNotification("right", InfoIcon, "Test Notify!", "This is a test notify")
+          }}>
+          <div className="animation-container">
+            <div className="osu-animate-background opacity-0 group-focus-visible:opacity-100 group-active:opacity-100 group-hover:opacity-100"></div>
+          </div>
+          Create Right Notify
         </Button>
       </div>
     </div>

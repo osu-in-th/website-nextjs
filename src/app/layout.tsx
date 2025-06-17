@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Providers from "./providers";
+import Notify from "@/components/notify";
 
 const quicksandSans = Quicksand({
   variable: "--font-quicksand",
@@ -30,19 +31,25 @@ export default function RootLayout({
       <body
         className={`${quicksandSans.variable} ${notoSansThaiMono.variable} antialiased`}
       >
-        <a className="skip-to-main-content-link animation-wrapper" href="#head-of-main-content" tabIndex={1}>
-          <div className="animation-container">
-            <div className="osu-animate-background"></div>
+        <Providers>
+          <a className="notify notify-focus animation-wrapper !fixed top-[12vh] !z-[1001]" href="#head-of-main-content" tabIndex={1}>
+            <div className="animation-container">
+              <div className="osu-animate-background"></div>
+            </div>
+            Skip to main content
+          </a>
+          <div className="notify-container" data-alignment="left" />
+          <div className="notify-container" data-alignment="right">
+            <Notify alignment="right">Notify</Notify>
+            <Notify alignment="right">Notify 2</Notify>
+            <Notify alignment="right">Notify 3</Notify>
           </div>
-          Skip to main content
-        </a>
-        <Header />
-        <main id="app" tabIndex={-1}>
-          <Providers>
+          <Header />
+          <main id="app" tabIndex={-1}>
             {children}
-          </Providers>
-        </main>
-        <Footer />
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

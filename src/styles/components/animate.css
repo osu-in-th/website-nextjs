@@ -30,6 +30,7 @@ button:active,
   scale: 0.98;
   transition-duration: .12s;
   filter: opacity(.64);
+  backdrop-filter: blur(8px);
 }
 
 .osu-animate-background,

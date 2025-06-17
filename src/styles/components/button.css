@@ -1,3 +1,22 @@
+button.trigger-only {
+    position: unset !important;
+    overflow: unset !important;
+    display: block !important;
+    min-width: none !important;
+    min-height: none !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    cursor: default;
+}
+
 button.osu-style {
     --osu-theme-button-background-color-hsl: var(--osu-theme-primary);
     --osu-theme-button-foreground-color-hsl: var(--osu-theme-primary-foreground);

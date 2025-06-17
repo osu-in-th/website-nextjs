@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./components/animate.css";
 @import "./components/button.css";
+@import "./components/notify.css";
 @plugin './hero.ts';
 
 @source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
@@ -31,46 +32,10 @@ body {
   overflow-x: hidden;
 }
 
-.skip-to-main-content-link {
-  display: flex;
-  position: fixed;
-  top: 12vh;
-  left: 0;
-  padding: .64rem 1.24rem;
-  outline: 0;
-  z-index: 1000;
-  transition: .24s cubic-bezier(0.175, 0.885, 0.32, 1.12);
-}
-.skip-to-main-content-link::before {
-  content: "";
-  position: absolute;
-  background-color: hsl(var(--osu-theme-primary));
-  width: 120%;
-  height: 100%;
-  top: 0;
-  left: -20%;
-  z-index: -1;
-  transform-origin: 100% 0;
-  box-shadow: 0px 0px 64px 6px hsl(var(--osu-theme-primary) / .64);
-  -webkit-transform: skewX(-10deg);
-  -ms-transform: skewX(-10deg);
-  transform: skewX(-10deg);
-  border-right: 4px solid rgb(255,255,255,.32);
-  z-index: -1;
-  transform-origin: bottom;
-  
-}
-.skip-to-main-content-link:not(:focus) {
-  transform: translateX(-120%);
-}
-.skip-to-main-content-link:not(:focus)::before {
-  box-shadow: 0px 0px 64px 6px hsl(var(--osu-theme-primary) / 0);
-}
-
 .osu-background-overlay,
 .osu-animate-background,
 .osu-animate-background-on-hover {
-  background-image: url("https://static.osu.in.th/images/bg-overlay-12.png");
+  background-image: url("https://static.osu.in.th/images/bg-overlay.png");
   background-repeat: repeat;
   background-size: 96px;
   background-position: left top;
