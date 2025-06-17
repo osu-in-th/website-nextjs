@@ -1,0 +1,12 @@
+{
+    "key": "en",
+    "name": "English",
+    "local_name": "English",
+    "country": "us",
+    "flag": "us",
+    "translators": ["Ponlponl123"],
+    "site": {
+        "name": "osu.in.th",
+        "osu": "osu!"
+    }
+}

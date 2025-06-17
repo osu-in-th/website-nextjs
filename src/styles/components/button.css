@@ -1,0 +1,30 @@
+button.osu-style {
+    --osu-theme-button-background-color-hsl: var(--osu-theme-primary);
+    --osu-theme-button-foreground-color-hsl: var(--osu-theme-primary-foreground);
+    padding: 1.48rem 1.64rem;
+    font-size: 16px;
+    font-weight: 600;
+    border: 0;
+}
+
+button.hover-effect {
+    box-shadow: 0px 0px 12px 0px hsl(var(--osu-theme-button-background-color-hsl) / 0);
+}
+button.hover-effect:hover,
+button.hover-effect:focus-visible {
+    box-shadow: 0px 0px 32px 12px hsl(var(--osu-theme-button-background-color-hsl) / .24);
+}
+button.hover-effect:active,
+button.hover-effect[data-pressed="true"] {
+    box-shadow: 0px 0px 16px 6px hsl(var(--osu-theme-button-background-color-hsl) / .24);
+}
+
+button.active-border-effect {
+    border: 2px solid hsl(var(--osu-theme-button-background-color-hsl));
+    background-color: hsl(var(--osu-theme-button-background-color-hsl));
+    color: hsl(var(--osu-theme-button-foreground-color-hsl));
+}
+button.active-border-effect:active,
+button.hover-effect[data-pressed="true"] {
+    background-color: hsl(var(--osu-theme-button-background-color-hsl) / .64);
+}

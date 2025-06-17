@@ -1,0 +1,47 @@
+* {
+  transition: .24s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.animation-wrapper {
+    position: relative;
+}
+.animation-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+.animation-container > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+a:active,
+button:active,
+[data-pressed="true"] {
+  scale: 0.98;
+  transition-duration: .12s;
+  filter: opacity(.64);
+}
+
+.osu-animate-background,
+.osu-animate-background-on-hover:hover {
+    animation: animated-background-move-y 4.8s linear infinite;
+}
+
+@keyframes animated-background-move-y {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 -192px;
+    }
+}
