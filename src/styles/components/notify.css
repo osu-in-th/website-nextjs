@@ -5,17 +5,23 @@
 .notify-base, .notify-wrapper {
     outline: none;
     position: relative;
+    transition: .24s cubic-bezier(0.175, 0.885, 0.32, 1.12);
 }
 .notify-base:not(.notify-hide) {
     position: relative;
     animation: .24s animation-notify-up cubic-bezier(0.075, 0.82, 0.165, 1) both;
     margin-bottom: 8px;
 }
-.notify-container[data-alignment="left"] .notify-base:not(.notify-hide) {
+/* .notify-container[data-alignment="left"] .notify-base:not(.notify-hide, .notify-highlight) {
+    transform: translateX(-86%);
     animation: .24s animation-notify-left cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-.notify-container[data-alignment="right"] .notify-base:not(.notify-hide) {
+.notify-container[data-alignment="right"] .notify-base:not(.notify-hide, .notify-highlight) {
+    transform: translateX(74%);
     animation: .24s animation-notify-right cubic-bezier(0.075, 0.82, 0.165, 1);
+} */
+.notify-container .notify-base.notify-highlight:not(.notify-hide) {
+    transform: translateX(0%)
 }
 .notify-base.notify-hide {
     display: none;
@@ -85,21 +91,21 @@
     }
 }
 
-.notify-wrapper:not(:hover, :focus) .notify::before {
+.notify-wrapper:not(:hover, .notify-highlight, :focus) .notify::before {
   box-shadow: 0px 0px 64px 6px hsl(var(--osu-theme-primary) / 0);
 }
-.notify-container[data-alignment="left"] .notify-base:not(:hover, .notify-focused),
-.notify-base:not(.notify-right):not(:hover, .notify-focused) {
-  transform: translateX(-86%);
+.notify-container[data-alignment="left"] .notify-base:not(:hover, .notify-highlight, .notify-focused),
+.notify-base:not(.notify-right):not(:hover, .notify-highlight, .notify-focused) {
+  transform: translateX(-86%) !important
 }
-.notify-container[data-alignment="right"] .notify-base:not(:hover, .notify-focused),
-.notify-base.notify-right:not(:hover, .notify-focused) {
-  transform: translateX(74%);
+.notify-container[data-alignment="right"] .notify-base:not(:hover, .notify-highlight, .notify-focused),
+.notify-base.notify-right:not(:hover, .notify-highlight, .notify-focused) {
+  transform: translateX(74%) !important
 }
-.notify-container[data-alignment="left"] .notify-base:not(:hover, .notify-focused),
-.notify-base:not(.notify-right):not(:hover, .notify-focused),
-.notify-container[data-alignment="right"] .notify-base:not(:hover, .notify-focused),
-.notify-base.notify-right:not(:hover, .notify-focused) {
+.notify-container[data-alignment="left"] .notify-base:not(:hover, .notify-highlight, .notify-focused),
+.notify-base:not(.notify-right):not(:hover, .notify-highlight, .notify-focused),
+.notify-container[data-alignment="right"] .notify-base:not(:hover, .notify-highlight, .notify-focused),
+.notify-base.notify-right:not(:hover, .notify-highlight, .notify-focused) {
   filter: brightness(.86) saturate(.86) contrast(.86) opacity(.86);
 }
 

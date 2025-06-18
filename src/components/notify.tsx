@@ -18,6 +18,25 @@ function Notify(props: NotifyProps) {
     const [isFocus, setIsFocus] = React.useState(false);
 
     const _this = React.useRef<HTMLDivElement>(null);
+    const _wrapper = React.useRef<HTMLDivElement>(null);
+    const _notify = React.useRef<HTMLAnchorElement>(null);
+
+    React.useEffect(() => {
+        setTimeout(() => {
+            if ( _this.current && _notify.current )
+            {
+                _this.current.classList.add("notify-highlight");
+                _notify.current.classList.add("notify-highlight");
+                setTimeout(() => {
+                    if ( _this.current && _notify.current )
+                    {
+                        _this.current.classList.remove("notify-highlight");
+                        _notify.current.classList.remove("notify-highlight");
+                    }
+                }, 2400);
+            }
+        }, 20);
+    }, [_notify])
 
     return (
         <div className={"notify-base " + (isActive ? "" : "notify-hide ") + (isFocus ? "notify-focused" : "")} ref={_this}>
@@ -35,8 +54,9 @@ function Notify(props: NotifyProps) {
                     }} onBlur={()=>{
                         setIsFocus(false);
                     }}
+                    ref={_wrapper}
                 >
-                    <a className={`notify notify-${props.alignment} animation-wrapper ` + (isActive ? "notify-active " : "notify-hide ") + (isFocus ? "notify-focused" : "")} tabIndex={-1}>
+                    <a ref={_notify} className={`notify notify-${props.alignment} animation-wrapper ` + (isActive ? "notify-active " : "notify-hide ") + (isFocus ? "notify-focused" : "")} tabIndex={-1}>
                         <div className="animation-container">
                             <div className="osu-animate-background"></div>
                         </div>
