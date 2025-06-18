@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Quicksand, Noto_Sans_Thai } from "next/font/google";
+import NextTopLoader from 'nextjs-toploader';
 import "@/styles/globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Providers from "./providers";
-import Notify from "@/components/notify";
+import PageTransitionEffect from "./PageTransitionEffect";
 
 const quicksandSans = Quicksand({
   variable: "--font-quicksand",
@@ -31,6 +32,9 @@ export default function RootLayout({
       <body
         className={`${quicksandSans.variable} ${notoSansThaiMono.variable} antialiased`}
       >
+        <NextTopLoader
+          color="#ff8bae"
+        />
         <Providers>
           <a className="notify notify-focus animation-wrapper !fixed top-[12vh] !z-[1001]" href="#head-of-main-content" tabIndex={1}>
             <div className="animation-container">
@@ -39,14 +43,12 @@ export default function RootLayout({
             Skip to main content
           </a>
           <div className="notify-container" data-alignment="left" />
-          <div className="notify-container" data-alignment="right">
-            <Notify alignment="right">Notify</Notify>
-            <Notify alignment="right">Notify 2</Notify>
-            <Notify alignment="right">Notify 3</Notify>
-          </div>
+          <div className="notify-container" data-alignment="right" />
           <Header />
-          <main id="app" tabIndex={-1}>
-            {children}
+          <main id="app" className="outline-0" tabIndex={-1}>
+            <PageTransitionEffect>
+              {children}
+            </PageTransitionEffect>
           </main>
           <Footer />
         </Providers>

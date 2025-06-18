@@ -7,6 +7,9 @@
     position: relative;
     transition: .24s cubic-bezier(0.175, 0.885, 0.32, 1.12);
 }
+.notify-base {
+    top: 8px;
+}
 .notify-base:not(.notify-hide) {
     position: relative;
     animation: .24s animation-notify-up cubic-bezier(0.075, 0.82, 0.165, 1) both;
@@ -33,13 +36,20 @@
     position: fixed;
     display: flex;
     flex-direction: column;
-    top: 12vh;
-    max-height: 86vh;
-    overflow-y: auto;
+    top: 96px;
     padding: 5.6rem;
     margin: -5.6rem;
+    max-height: 86vh;
+    overflow-y: auto;
+    margin-top: 0;
     scrollbar-width: none;
     z-index: 1000;
+}
+/* .notify-container:not(.notify-focusing) {
+    pointer-events: none
+} */
+html[data-scroll="true"] .notify-container {
+    top: 64px
 }
 .notify-container[data-alignment="left"] {
     left: 0;
@@ -70,27 +80,23 @@
   transition: .24s cubic-bezier(0.175, 0.885, 0.32, 1.12);
   border-radius: 8px;
   z-index: -1;
-  transform-origin: bottom;
-  
+  transform-origin: bottom; 
 }
-
 .notify > svg {
-    margin-left: -12px;
-    margin-right: 12px;
+    margin-left: -20px;
+    margin-right: 16px;
 }
 .notify > .notify-content {
     text-align: start;
-
     .notify-title {
         font-weight: 700;
     }
-
     .notify-description {
         font-size: 12px;
         font-weight: 500;
     }
 }
-
+.notify.notify-focus:not(:focus)::before,
 .notify-wrapper:not(:hover, .notify-highlight, :focus) .notify::before {
   box-shadow: 0px 0px 64px 6px hsl(var(--osu-theme-primary) / 0);
 }

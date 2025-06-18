@@ -1,8 +1,8 @@
 "use client";
+import React from 'react';
 import { Button } from '@heroui/react';
 import { Icon } from '@phosphor-icons/react';
-import React from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot } from 'react-dom/client';
 
 type NotifyAlignment = "left" | "right";
 

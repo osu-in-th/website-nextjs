@@ -1,12 +1,15 @@
 "use client";
 import { createNotification } from "@/components/notify";
+import { useLanguage } from "@/contexts/languageContext";
 import { Button } from "@heroui/react";
 import { InfoIcon } from "@phosphor-icons/react/dist/ssr";
 
-export default function Home() {
+export default function Components() {
+  const { language } = useLanguage();
   return (
-    <div className="flex flex-col items-center justify-items-center min-h-screen p-8 pb-20 gap-6 sm:p-20">
-      <h1 id="head-of-main-content">Hey app!</h1>
+    <div className="flex flex-col items-center justify-items-center px-4 gap-4">
+      <title>{language.data.site.title.debug} - {language.data.site.osu}</title>
+      <h1>Buttons</h1>
       <div className="flex items-center gap-6">
         <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full"
           style={{"--osu-theme-button-background-color-hsl": "var(--osu-theme-default)"} as React.CSSProperties}>
@@ -51,6 +54,7 @@ export default function Home() {
           Button
         </Button>
       </div>
+      <h1>Notify</h1>
       <div className="flex items-center gap-6">
         <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full"
           style={{"--osu-theme-button-background-color-hsl": "var(--osu-theme-primary)"} as React.CSSProperties}

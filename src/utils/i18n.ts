@@ -1,7 +1,7 @@
 import en from "@/data/langs/en.json";
 import th from "@/data/langs/th.json";
 
-export type CombiledLanguageKey = keyof typeof en | keyof typeof th;
+export type CombiledLanguageKey = typeof en | typeof th;
 
 export type Language = {
     key: string;

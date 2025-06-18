@@ -7,7 +7,10 @@
     "translators": ["Ponlponl123"],
     "site": {
         "name": "โอสุ.ไทย",
-        "osu": "โอสุ!"
+        "osu": "โอสุ!",
+        "title": {
+            "debug": "ดีบัค"
+        }
     },
     "skip_to_main_content": "ข้ามไปยังเนื้อหาหลัก"
 }
