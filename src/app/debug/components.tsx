@@ -99,6 +99,28 @@ export default function Components() {
           Create Right Notify
         </Button>
       </div>
+      <div className="flex items-center gap-6">
+        <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full"
+          style={{"--osu-theme-button-background-color-hsl": "var(--osu-theme-primary)"} as React.CSSProperties}
+          onPress={()=>{
+            createNotification("left", InfoIcon, "Test Notify!", "This is a test notify", 10000)
+          }}>
+          <div className="animation-container">
+            <div className="osu-animate-background opacity-0 group-focus-visible:opacity-100 group-active:opacity-100 group-hover:opacity-100"></div>
+          </div>
+          Create Left Notify with Timeout Interval
+        </Button>
+        <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full"
+          style={{"--osu-theme-button-background-color-hsl": "var(--osu-theme-primary)"} as React.CSSProperties}
+          onPress={()=>{
+            createNotification("right", InfoIcon, "Test Notify!", "This is a test notify", 10000)
+          }}>
+          <div className="animation-container">
+            <div className="osu-animate-background opacity-0 group-focus-visible:opacity-100 group-active:opacity-100 group-hover:opacity-100"></div>
+          </div>
+          Create Right Notify with Timeout Interval
+        </Button>
+      </div>
     </div>
   );
 }
