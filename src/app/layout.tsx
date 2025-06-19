@@ -45,7 +45,7 @@ export default function RootLayout({
           <div className="notify-container apply-transition" data-alignment="left" />
           <div className="notify-container apply-transition" data-alignment="right" />
           <Header />
-          <main id="app" className="outline-0" tabIndex={-1}>
+          <main id="app" className="outline-0 relative" tabIndex={-1}>
             <PageTransitionEffect>
               {children}
             </PageTransitionEffect>

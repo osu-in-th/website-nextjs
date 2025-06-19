@@ -46,7 +46,7 @@ function ThanksToCommunity() {
     
     return (
         <>
-            <div className="absolute top-0 left-0 h-80 w-full">
+            <div className="absolute -top-24 left-0 h-80 w-full">
                 <Image src={"https://static.osu.in.th/images/"+hero_bg_image.filename} className="w-full h-full object-cover rounded-none" classNames={{
                     wrapper: "h-full w-full !max-w-none overflow-hidden rounded-none rounded-b-4xl"
                 }} />
