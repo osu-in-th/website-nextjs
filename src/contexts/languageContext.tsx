@@ -30,7 +30,7 @@ export const LanguageProvider = ({children}: {children: React.ReactNode}) => {
     }
 
     React.useEffect(() => {
-        if ( window.location.hostname === "โอสุ.ไทย" )
+        if ( window.location.hostname === "xn--73cf8ayb.xn--o3cw4h" )
         {
             setLanguageByKey("th");
             return;
