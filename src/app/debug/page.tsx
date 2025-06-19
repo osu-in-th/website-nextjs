@@ -1,6 +1,6 @@
 "use client";
 import { useLanguage } from "@/contexts/languageContext";
-import { Button, Card, CardBody, Tab, Tabs } from "@heroui/react";
+import { Card, CardBody, Tab, Tabs } from "@heroui/react";
 import { BugIcon, InfoIcon } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 import Components from "./components";
@@ -8,8 +8,8 @@ import Components from "./components";
 export default function Home() {
   const { language } = useLanguage();
   return (
-    <div className="flex flex-col items-center justify-items-center min-h-screen p-8 pb-20 gap-6 sm:p-20">
-        <h1 className="flex items-center font-bold text-3xl gap-4 w-full max-w-4xl" id="head-of-main-content"><BugIcon weight="bold" size={48} /> {language.data.site.title.debug}</h1>
+    <div className="flex flex-col items-center justify-items-center w-full min-h-screen p-8 pb-20 gap-6 sm:p-20">
+        <h1 className="flex items-center font-bold text-3xl gap-4 w-full max-w-4xl" id="head-of-main-content"><BugIcon weight="bold" size={48} /> {language.data.pages.debug.title}</h1>
         <div className="w-full max-w-4xl">
             <Tabs aria-label="Debug" variant="light" color="primary" size="lg" isVertical
                 classNames={{

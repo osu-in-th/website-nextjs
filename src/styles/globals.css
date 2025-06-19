@@ -32,6 +32,15 @@ body {
   overflow-x: hidden;
 }
 
+main#app {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
 .osu-background-overlay,
 .osu-animate-background,
 .osu-animate-background-on-hover {

@@ -8,9 +8,36 @@
     "site": {
         "name": "osu.in.th",
         "osu": "osu!",
-        "title": {
-            "debug": "Debug"
-        }
+        "laser": "Laser",
+        "description": "Rhythm is just a *click* away!"
     },
-    "skip_to_main_content": "Skip to main content"
+    "words": {
+        "download": "Download",
+        "explore": "Explore"
+    },
+    "skip_to_main_content": "Skip to main content",
+    "wip": {
+        "title": "We're working on it!",
+        "description": "Please check back soon, thanks for your patience!",
+        "other_ways": "Or you can",
+        "create_pr": "Create your Pull Request!"
+    },
+    "pages": {
+        "home": {
+            "title": "Home",
+            "disclaimer": "Non-Official Osu! website from peppy",
+            "links": {
+                "beatmap": "Explore beatmaps"
+            }
+        },
+        "beatmap": {
+            "title": "Beatmap"
+        },
+        "status": {
+            "title": "Status"
+        },
+        "debug": {
+            "title": "Debug"
+        }
+    }
 }

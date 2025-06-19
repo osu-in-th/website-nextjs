@@ -30,6 +30,11 @@ export const LanguageProvider = ({children}: {children: React.ReactNode}) => {
     }
 
     React.useEffect(() => {
+        if ( window.location.hostname === "โอสุ.ไทย" )
+        {
+            setLanguageByKey("th");
+            return;
+        }
         const savedLanguage = localStorage.getItem("lang");
         const clientLanguage = navigator.language.split("-")[0];
 

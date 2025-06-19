@@ -8,9 +8,36 @@
     "site": {
         "name": "โอสุ.ไทย",
         "osu": "โอสุ!",
-        "title": {
-            "debug": "ดีบัค"
-        }
+        "laser": "Laser",
+        "description": "ก็แค่เกม **คลิก** วงกลม!"
     },
-    "skip_to_main_content": "ข้ามไปยังเนื้อหาหลัก"
+    "words": {
+        "download": "ดาวน์โหลด",
+        "explore": "สำรวจ"
+    },
+    "skip_to_main_content": "ข้ามไปยังเนื้อหาหลัก",
+    "wip": {
+        "title": "เรากำลังดำเนินการอยู่!",
+        "description": "กรุณาตรวจสอบอีกครั้งในเร็วๆ นี้ ขอบคุณสำหรับความอดทนของคุณ!",
+        "other_ways": "หรือคุณสามารถ",
+        "create_pr": "สร้าง PR ของคุณ!"
+    },
+    "pages": {
+        "home": {
+            "title": "หน้าแรก",
+            "disclaimer": "นี่ไม่ใช่เว็บไซต์ Osu! ทางการจาก peppy",
+            "links": {
+                "beatmap": "สำรวจบีทแมพ"
+            }
+        },
+        "beatmap": {
+            "title": "บีทแมพ"
+        },
+        "status": {
+            "title": "สถานะ"
+        },
+        "debug": {
+            "title": "ดีบัค"
+        }
+    }
 }

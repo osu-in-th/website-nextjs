@@ -10,7 +10,6 @@ import { languages } from '@/utils/i18n';
 function Header() {
   const { language, setLanguageByKey } = useLanguage();
   const [scrolled, setScrolled] = React.useState(false);
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set([language.key]));
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -89,9 +88,9 @@ function Header() {
           </div>
           <nav className='flex-1 flex items-center justify-between gap-4'>
             <div className='flex items-center gap-2'>
-              <NavLink href='/'>Home</NavLink>
-              <NavLink href='/beatmapsets'>Beatmap</NavLink>
-              <NavLink href='https://status.osu.in.th' target='_blank'>Status</NavLink>
+              <NavLink href='/'>{language.data.pages.home.title}</NavLink>
+              <NavLink href='/beatmapsets'>{language.data.pages.beatmap.title}</NavLink>
+              <NavLink href='https://status.osu.in.th' target='_blank'>{language.data.pages.status.title}</NavLink>
             </div>
             <div className='flex items-center gap-4'>
               <Link href='https://github.com/osu-in-th' target='_blank' tabIndex={-1}><Button isIconOnly variant='light' radius='full'><GithubLogoIcon weight='fill' size={18} /></Button></Link>
@@ -101,12 +100,11 @@ function Header() {
                 </DropdownTrigger>
                 <DropdownMenu
                   disallowEmptySelection
-                  selectedKeys={selectedKeys}
+                  selectedKeys={language.key}
                   selectionMode="single"
                   variant="flat"
                   onSelectionChange={keys => {
                     const value = keys.currentKey;
-                    setSelectedKeys(new Set(typeof keys === "string" ? [keys] : Array.from(keys as Set<string>)))
                     if (value) setLanguageByKey(value);
                   }}
                 >

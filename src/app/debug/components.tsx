@@ -8,7 +8,7 @@ export default function Components() {
   const { language } = useLanguage();
   return (
     <div className="flex flex-col items-center justify-items-center px-4 gap-4">
-      <title>{language.data.site.title.debug} - {language.data.site.osu}</title>
+      <title>{language.data.pages.debug.title} - {language.data.site.osu}</title>
       <h1>Buttons</h1>
       <div className="flex items-center gap-6">
         <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full"
