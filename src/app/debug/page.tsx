@@ -4,6 +4,7 @@ import { Card, CardBody, Tab, Tabs } from "@heroui/react";
 import { BugIcon, InfoIcon } from "@phosphor-icons/react/dist/ssr";
 import React from "react";
 import Components from "./components";
+import WIP from "@/components/wip";
 
 export default function Home() {
   const { language } = useLanguage();
@@ -20,6 +21,9 @@ export default function Home() {
             >
                 <Tab key="components" title="Components">
                     <Components />
+                </Tab>
+                <Tab key="wip" title="WIP Page">
+                    <WIP />
                 </Tab>
                 <Tab key="info" title="Info">
                     <Card>

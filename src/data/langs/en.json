@@ -23,9 +23,17 @@
         "create_pr": "Create your Pull Request!"
     },
     "pages": {
+        "not_found": {
+            "title": "This page does not exist.",
+            "description": "It looks like the page you are looking for is no longer here.",
+            "links": {
+                "back_to_home": "Go to home page"
+            }
+        },
         "home": {
             "title": "Home",
             "disclaimer": "Non-Official Osu! website from peppy",
+            "imageby": "Image by",
             "links": {
                 "beatmap": "Explore beatmaps"
             }
@@ -38,6 +46,20 @@
         },
         "debug": {
             "title": "Debug"
+        },
+        "thanks_for_everyone": {
+            "title": "Thanks for everyone!",
+            "sections": {
+                "translators": "Translators",
+                "contributors": "Contributors",
+                "artworks": "Artworks"
+            }
+        }
+    },
+    "footer": {
+        "made_with_love_by_community": "Made with ❤️ by community!",
+        "links": {
+            "status": "Service Status"
         }
     }
 }

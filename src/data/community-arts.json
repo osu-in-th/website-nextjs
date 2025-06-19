@@ -1,0 +1,37 @@
+[
+    {
+        "filename": "tehfire.jpg",
+        "author": {
+            "name": "tehfire",
+            "url": "https://osu.ppy.sh/users/7082924"
+        }
+    },
+    {
+        "filename": "kohiibeans.png",
+        "author": {
+            "name": "kohiibeans",
+            "url": "https://osu.ppy.sh/users/34834104"
+        }
+    },
+    {
+        "filename": "Black%20Lynx.jpg",
+        "author": {
+            "name": "Black Lynx",
+            "url": "https://osu.ppy.sh/users/1193814"
+        }
+    },
+    {
+        "filename": "mocapixel.png",
+        "author": {
+            "name": "mocapixel",
+            "url": "https://osu.ppy.sh/users/11596939"
+        }
+    },
+    {
+        "filename": "MapleSpe.jpg",
+        "author": {
+            "name": "MapleSpe",
+            "url": "https://osu.ppy.sh/users/20991449"
+        }
+    }
+]
