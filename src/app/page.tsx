@@ -2,8 +2,9 @@
 
 import WIP from "@/components/wip";
 import { useLanguage } from "@/contexts/languageContext";
-import { Button, Chip, Image, Link } from "@heroui/react";
+import { Button, Chip, Image } from "@heroui/react";
 import { ArrowUpRightIcon, DownloadSimpleIcon, InfoIcon, MusicNoteIcon } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 
 export default function Home() {
   const {language} = useLanguage();
@@ -32,6 +33,7 @@ export default function Home() {
           <div className="w-full flex items-center gap-4">
             <Link href="/download" tabIndex={-1}>
               <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full" tabIndex={0}
+                onPress={(e)=>e.continuePropagation()}
                 style={{"--osu-theme-button-background-color-hsl": "var(--osu-theme-primary)"} as React.CSSProperties}>
                 <div className="animation-container">
                   <div className="osu-animate-background opacity-0 group-focus-visible:opacity-100 group-active:opacity-100 group-hover:opacity-100"></div>
@@ -42,6 +44,7 @@ export default function Home() {
             </Link>
             <Link href="/beatmapsets" tabIndex={-1}>
               <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full" tabIndex={0}
+                onPress={(e)=>e.continuePropagation()}
                 style={{"--osu-theme-button-background-color-hsl": "var(--osu-theme-secondary)"} as React.CSSProperties}>
                 <div className="animation-container">
                   <div className="osu-animate-background opacity-0 group-focus-visible:opacity-100 group-active:opacity-100 group-hover:opacity-100"></div>

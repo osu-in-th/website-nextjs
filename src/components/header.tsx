@@ -1,11 +1,12 @@
 "use client";
 import clsx from 'clsx'
 import React from 'react'
-import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link } from '@heroui/react'
+import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react'
 import { useLanguage } from '@/contexts/languageContext'
 import { usePathname } from 'next/navigation';
 import { GithubLogoIcon } from '@phosphor-icons/react/dist/ssr';
 import { languages } from '@/utils/i18n';
+import Link from 'next/link';
 
 function Header() {
   const { language, setLanguageByKey } = useLanguage();

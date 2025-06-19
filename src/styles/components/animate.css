@@ -33,9 +33,10 @@ button:active,
 [data-pressed="true"] {
   scale: 0.98;
   transition-duration: .12s;
-  filter: opacity(.64);
-  backdrop-filter: blur(8px);
+  /* backdrop-filter: blur(8px); */
 }
+a:active,
+[data-pressed="true"]:active {filter:opacity(.64)}
 
 .osu-animate-background,
 .osu-animate-background-on-hover:hover {

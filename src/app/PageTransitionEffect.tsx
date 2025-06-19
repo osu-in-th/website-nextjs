@@ -37,7 +37,7 @@ const PageTransitionEffect = ({ children }: { children: React.ReactNode }) => {
         animate="enter"
         exit="exit"
         variants={variants}
-        className='apply-transition w-full'
+        className='apply-transition w-full min-h-screen'
         transition={{ duration: 0.24 }}
       >
         <FrozenRouter>{children}</FrozenRouter>
