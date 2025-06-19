@@ -12,8 +12,8 @@ export default function Home() {
     <>
       <section id="head-of-main-content" className="flex flex-col items-center justify-items-center w-screen min-h-96 h-[64vh] max-h-[640px] -mt-24 p-8 pb-20 gap-6 sm:p-20 relative">
         <div className="absolute top-0 left-0 h-full w-full">
-          <Image src={"https://static.osu.in.th/images/1183344.png"} className="w-full h-full rounded-none" classNames={{
-            wrapper: "max-h-full overflow-hidden rounded-none rounded-b-4xl"
+          <Image src={"https://static.osu.in.th/images/1183344.png"} className="w-full h-full object-cover rounded-none" classNames={{
+            wrapper: "h-full w-full !max-w-none overflow-hidden rounded-none rounded-b-4xl"
           }} />
           <div className="absolute z-10 top-0 left-0 w-full h-full bg-gradient-to-t from-transparent to-black/80" />
         </div>
@@ -30,7 +30,7 @@ export default function Home() {
           </div>
           <h1 id="head-of-main-content" className="font-extrabold text-7xl w-full">{language.data.site.name}</h1>
           <p id="head-of-main-content" className="font-semibold text-2xl w-full">{language.data.site.description}</p>
-          <div className="w-full flex items-center gap-4">
+          <div className="w-full flex flex-wrap items-center gap-4">
             <Link href="/download" tabIndex={-1}>
               <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full" tabIndex={0}
                 onPress={(e)=>e.continuePropagation()}

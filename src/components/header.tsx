@@ -5,12 +5,14 @@ import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger }
 import { useLanguage } from '@/contexts/languageContext'
 import { usePathname } from 'next/navigation';
 import { GithubLogoIcon } from '@phosphor-icons/react/dist/ssr';
+import { useMediaQuery } from 'react-responsive';
 import { languages } from '@/utils/i18n';
 import Link from 'next/link';
 
 function Header() {
   const { language, setLanguageByKey } = useLanguage();
   const [scrolled, setScrolled] = React.useState(false);
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 40rem)' });
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -26,8 +28,8 @@ function Header() {
   return (
     <>
       <header className={clsx(
-        'w-full fixed flex items-center justify-center gap-4 rounded-b-2xl z-50 apply-transition',
-        scrolled ? "bg-secondary p-2" : "bg-transparent p-4"
+        'w-full fixed flex items-center justify-center gap-4 rounded-b-3xl z-50 apply-transition',
+        scrolled ? "bg-secondary p-1 max-xl:pr-2" : "bg-transparent p-4"
       )}>
         <div className='w-full max-w-4xl flex items-center justify-between gap-4'>
           <div className={clsx(
@@ -93,11 +95,13 @@ function Header() {
               <NavLink href='/beatmapsets'>{language.data.pages.beatmap.title}</NavLink>
               <NavLink href='https://status.osu.in.th' target='_blank'>{language.data.pages.status.title}</NavLink>
             </div>
-            <div className='flex items-center gap-4'>
-              <Link href='https://github.com/osu-in-th' target='_blank' tabIndex={-1}><Button isIconOnly variant='light' radius='full'><GithubLogoIcon weight='fill' size={18} /></Button></Link>
+            <div className='flex items-center gap-2'>
+              <Link href='https://github.com/osu-in-th' target='_blank' tabIndex={-1}><Button size='sm' isIconOnly variant='light' radius='full'><GithubLogoIcon weight='fill' size={18} /></Button></Link>
               <Dropdown>
                 <DropdownTrigger>
-                  <Button className="capitalize" radius='full' variant="light" isIconOnly><Avatar alt={language.name} className="w-6 h-6" src={`https://flagcdn.com/${language.flag}.svg`} /></Button>
+                  <Button className="capitalize" radius='full' variant="light" size="sm" isIconOnly>
+                    <Avatar alt={language.name} className="w-5 h-5" src={`https://flagcdn.com/${language.flag}.svg`} />
+                  </Button>
                 </DropdownTrigger>
                 <DropdownMenu
                   disallowEmptySelection
@@ -123,7 +127,7 @@ function Header() {
                 </DropdownMenu>
               </Dropdown>
               <Button href='/my-profile' isIconOnly radius='full' className={clsx(
-                'relative apply-transition',
+                'relative apply-transition ml-1',
                 scrolled ? "h-10 w-10" : "h-14 w-14"
               )}>
                 <Avatar src="https://static.osu.in.th/images/default-userprofile.png" className={clsx(

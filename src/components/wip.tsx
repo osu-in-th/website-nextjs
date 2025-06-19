@@ -7,11 +7,11 @@ import React from 'react'
 function WIP() {
     const {language} = useLanguage();
     return (
-        <div className='w-full p-24 flex flex-col items-center justify-center gap-6'>
+        <div className='w-full p-24 max-sm:px-6 flex flex-col items-center justify-center gap-6 text-center'>
             <CraneTowerIcon weight='fill' size={96} />
             <h1 className='text-3xl font-bold -mb-2'>{language.data.wip.title}</h1>
             <p>{language.data.wip.description}</p>
-            <div className='flex items-center gap-4'>
+            <div className='flex max-sm:flex-col items-center gap-4'>
                 <span className='text-sm'>{language.data.wip.other_ways}</span>
                 <Link target='_blank' href="https://github.com/osu-in-th/website-nextjs/compare" tabIndex={-1}>
                     <Button className="osu-style active-border-effect hover-effect animation-wrapper group" radius="full"
