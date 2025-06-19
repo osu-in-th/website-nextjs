@@ -1,4 +1,4 @@
-*:not([data-slot="cursor"]) {
+button, a, .apply-transition, .animation-wrapper * {
   transition: .24s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 

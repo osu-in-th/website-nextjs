@@ -37,10 +37,8 @@
     display: flex;
     flex-direction: column;
     top: 96px;
-    padding: 5.6rem;
-    margin: -5.6rem;
     max-height: 86vh;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     margin-top: 0;
     scrollbar-width: none;
     z-index: 1000;
@@ -98,7 +96,7 @@ html[data-scroll="true"] .notify-container {
 }
 .notify.notify-focus:not(:focus)::before,
 .notify-wrapper:not(:hover, .notify-highlight, :focus) .notify::before {
-  box-shadow: 0px 0px 64px 6px hsl(var(--osu-theme-primary) / 0);
+  box-shadow: 0px 0px 64px 6px hsl(var(--osu-theme-primary) / 0)
 }
 .notify-container[data-alignment="left"] .notify-base:not(:hover, .notify-highlight, .notify-focused),
 .notify-base:not(.notify-right):not(:hover, .notify-highlight, .notify-focused) {
@@ -112,7 +110,7 @@ html[data-scroll="true"] .notify-container {
 .notify-base:not(.notify-right):not(:hover, .notify-highlight, .notify-focused),
 .notify-container[data-alignment="right"] .notify-base:not(:hover, .notify-highlight, .notify-focused),
 .notify-base.notify-right:not(:hover, .notify-highlight, .notify-focused) {
-  filter: brightness(.86) saturate(.86) contrast(.86) opacity(.86);
+  filter: brightness(.86) saturate(.86) contrast(.86) opacity(.86)
 }
 
 /* Alignment ----------- */

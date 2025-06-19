@@ -1,14 +1,17 @@
 "use client";
 import clsx from 'clsx'
 import React from 'react'
-import { Avatar, Button, Link } from '@heroui/react'
+import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link } from '@heroui/react'
 import { useLanguage } from '@/contexts/languageContext'
 import { usePathname } from 'next/navigation';
 import { GithubLogoIcon } from '@phosphor-icons/react/dist/ssr';
+import { languages } from '@/utils/i18n';
 
 function Header() {
-  const { language } = useLanguage();
+  const { language, setLanguageByKey } = useLanguage();
   const [scrolled, setScrolled] = React.useState(false);
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set([language.key]));
+
   React.useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 0;
@@ -23,12 +26,12 @@ function Header() {
   return (
     <>
       <header className={clsx(
-        'w-full fixed flex items-center justify-center gap-4 rounded-b-2xl',
+        'w-full fixed flex items-center justify-center gap-4 rounded-b-2xl z-50 apply-transition',
         scrolled ? "bg-secondary p-2" : "bg-transparent p-4"
       )}>
         <div className='w-full max-w-4xl flex items-center justify-between gap-4'>
           <div className={clsx(
-            'relative',
+            'relative apply-transition',
             scrolled ? "h-12 w-12" : "h-16 w-16"
           )} id='logo'>
             <Link className='group active:opacity-100' href='/' tabIndex={-1}>
@@ -92,12 +95,40 @@ function Header() {
             </div>
             <div className='flex items-center gap-4'>
               <Link href='https://github.com/osu-in-th' target='_blank' tabIndex={-1}><Button isIconOnly variant='light' radius='full'><GithubLogoIcon weight='fill' size={18} /></Button></Link>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="capitalize" radius='full' variant="light" isIconOnly><Avatar alt={language.name} className="w-6 h-6" src={`https://flagcdn.com/${language.flag}.svg`} /></Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  disallowEmptySelection
+                  selectedKeys={selectedKeys}
+                  selectionMode="single"
+                  variant="flat"
+                  onSelectionChange={keys => {
+                    const value = keys.currentKey;
+                    setSelectedKeys(new Set(typeof keys === "string" ? [keys] : Array.from(keys as Set<string>)))
+                    if (value) setLanguageByKey(value);
+                  }}
+                >
+                {
+                  languages.map((lang, index) => {
+                    return <DropdownItem value={lang.key} key={index}
+                      classNames={{
+                        title: "font-semibold"
+                      }}
+                      startContent={
+                        <Avatar alt={lang.name} className="w-5 h-5" src={`https://flagcdn.com/${lang.flag}.svg`} />
+                      }>{lang.localName}</DropdownItem>
+                  })
+                }
+                </DropdownMenu>
+              </Dropdown>
               <Button href='/my-profile' isIconOnly radius='full' className={clsx(
-                'relative',
+                'relative apply-transition',
                 scrolled ? "h-10 w-10" : "h-14 w-14"
               )}>
                 <Avatar src="https://static.osu.in.th/images/default-userprofile.png" className={clsx(
-                  'relative select-none pointer-events-none',
+                  'relative apply-transition select-none pointer-events-none',
                   scrolled ? "h-10 w-10" : "h-14 w-14"
                 )} />
               </Button>

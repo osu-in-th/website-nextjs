@@ -5,9 +5,11 @@ import React from "react";
 const LanguageContext = React.createContext<{
     language: Language;
     setLanguage: (lang: Language) => void;
+    setLanguageByKey: (lang: string) => void;
 }>({
     language: defaultLanguage,
     setLanguage: () => {},
+    setLanguageByKey: () => {}
 });
 
 export const LanguageProvider = ({children}: {children: React.ReactNode}) => {
@@ -18,18 +20,16 @@ export const LanguageProvider = ({children}: {children: React.ReactNode}) => {
         localStorage.setItem("lang", lang.key);
     }
 
-    React.useEffect(() => {
-        const setLanguageByKey = (key: string): boolean => {
-            if (savedLanguage) {
-                const parsedLanguage = getLanguageByKey(savedLanguage);
-                if (parsedLanguage) {
-                    setLanguageFunc(parsedLanguage);
-                    return true;
-                }
-            }
-            return false;
+    const setLanguageByKey = (key: string): boolean => {
+        const parsedLanguage = getLanguageByKey(key);
+        if (parsedLanguage) {
+            setLanguageFunc(parsedLanguage);
+            return true;
         }
-        
+        return false;
+    }
+
+    React.useEffect(() => {
         const savedLanguage = localStorage.getItem("lang");
         const clientLanguage = navigator.language.split("-")[0];
 
@@ -38,7 +38,7 @@ export const LanguageProvider = ({children}: {children: React.ReactNode}) => {
     }, []);
 
     return (
-        <LanguageContext.Provider value={{ language, setLanguage: setLanguageFunc }}>
+        <LanguageContext.Provider value={{ language, setLanguage: setLanguageFunc, setLanguageByKey }}>
             {children}
         </LanguageContext.Provider>
     )
