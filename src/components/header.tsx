@@ -184,18 +184,14 @@ const NavDropdownProviderContext = React.createContext<{ isActive: boolean; onAc
 export const NavDropdownProvider = ({children}: {children: React.ReactNode}) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = React.useState<boolean>(false);
-  const onActive = ()=>{
-    setIsActive(true);
-  }
-  const onDeActive = ()=>{
-    setIsActive(false);
-  }
+  const onActive = ()=>setIsActive(true);
+  const onDeActive = ()=>setIsActive(false);
   return <NavDropdownProviderContext.Provider value={{isActive, onActive, onDeActive}}>
     {isActive && <motion.div
       initial={{y:-32,opacity:0}}
       animate={{y:0,opacity:1}}
       exit={{y:-32,opacity:0}}
-      className={"nav-dropdown-bg nav-dropdown-provider-active absolute top-0 left-0 bg-secondary w-full h-96 -z-10 rounded-b-4xl"}
+      className={"nav-dropdown-bg nav-dropdown-provider-active absolute top-0 left-0 bg-secondary w-full h-56 -z-10 rounded-b-4xl"}
       ref={ref}
     />}
     {children}
@@ -226,7 +222,6 @@ const NavDropdownContext = React.createContext<{
 });
 
 export const NavDropdown = ({ children }: { children: React.ReactNode }) => {
-  const {isActive} = useNavDropdownProvider();
   const {onActive: providerOnActive, onDeActive: providerOnDeActive} = useNavDropdownProvider();
   const [trigger, setTrigger] = React.useState<HTMLButtonElement | null>(null);
   const [body, setBody] = React.useState<HTMLDivElement | null>(null);
