@@ -1,7 +1,21 @@
 .nav-dropdown {
     position: relative;
 }
-
+.nav-dropdown-bg {
+    --height: 14rem;
+    @apply absolute bg-secondary-200/60 border-2 border-secondary backdrop-blur-lg rounded-b-4xl;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(var(--height) + 4px);
+    z-index: -10;
+}
+html[data-scroll="true"] .nav-dropdown-bg {
+    height: calc(var(--height) - 32px);
+}
+html[data-nav-dropdown-active="true"] header {
+    background-color: transparent !important
+}
 .nav-dropdown > .nav-dropdown-body {
     --padding: .48rem;
     --margin: 1.24em;
@@ -24,7 +38,7 @@
     width: 100%;
     height: calc(100% - var(--margin));
     margin-top: var(--margin);
-    background-color: hsl(var(--osu-theme-background) / 10%);
+    background-color: hsl(var(--osu-theme-background) / 16%);
     border-radius: 24px;
     z-index: -1;
 }
@@ -39,6 +53,9 @@ html[data-scroll="true"] .nav-dropdown > .nav-dropdown-body {
     border: 0;
     border-radius: 18px;
     padding: 0.64rem 1.24rem;
+}
+.nav-dropdown-body > :hover {
+    background-color: hsl(var(--osu-theme-foreground) / 8%)
 }
 .nav-dropdown-body > .active {
     background-color: hsl(var(--osu-theme-primary))

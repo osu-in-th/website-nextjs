@@ -6,7 +6,7 @@ import { useLanguage } from '@/contexts/languageContext'
 import { usePathname, useRouter } from 'next/navigation';
 import { GithubLogoIcon } from '@phosphor-icons/react/dist/ssr';
 import { languages } from '@/utils/i18n';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 
 function Header() {
@@ -93,26 +93,28 @@ function Header() {
           </div>
           <nav className='flex-1 flex items-center justify-between gap-4'>
             <div className='flex items-center gap-2'>
-              <NavDropdownProvider>
-                <NavDropdown>
-                  <NavDropdownTrigger>
-                    <NavLink href='/'>{language.data.pages.home.title}</NavLink>
-                  </NavDropdownTrigger>
-                  <NavDropdownBody>
-                    <NavLink href='/' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.home.title}</NavLink>
-                    <NavLink href='/download' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.download.title}</NavLink>
-                  </NavDropdownBody>
-                </NavDropdown>
-                <NavDropdown>
-                  <NavDropdownTrigger>
-                    <NavLink href='/beatmapsets'>{language.data.pages.beatmap.title}</NavLink>
-                  </NavDropdownTrigger>
-                  <NavDropdownBody>
-                    <NavLink href='/beatmapsets' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.beatmap.list}</NavLink>
-                    <NavLink href='/featured-artists' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.featured_artist.title}</NavLink>
-                  </NavDropdownBody>
-                </NavDropdown>
-              </NavDropdownProvider>
+              <AnimatePresence>
+                <NavDropdownProvider>
+                  <NavDropdown>
+                    <NavDropdownTrigger>
+                      <NavLink href='/'>{language.data.pages.home.title}</NavLink>
+                    </NavDropdownTrigger>
+                    <NavDropdownBody>
+                      <NavLink href='/' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.home.title}</NavLink>
+                      <NavLink href='/download' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.download.title}</NavLink>
+                    </NavDropdownBody>
+                  </NavDropdown>
+                  <NavDropdown>
+                    <NavDropdownTrigger>
+                      <NavLink href='/beatmapsets'>{language.data.pages.beatmap.title}</NavLink>
+                    </NavDropdownTrigger>
+                    <NavDropdownBody>
+                      <NavLink href='/beatmapsets' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.beatmap.list}</NavLink>
+                      <NavLink href='/featured-artists' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.featured_artist.title}</NavLink>
+                    </NavDropdownBody>
+                  </NavDropdown>
+                </NavDropdownProvider>
+              </AnimatePresence>
               <NavLink href='https://status.osu.in.th' target='_blank'>{language.data.pages.status.title}</NavLink>
             </div>
             <div className='flex items-center gap-2'>
@@ -188,10 +190,11 @@ export const NavDropdownProvider = ({children}: {children: React.ReactNode}) => 
   const onDeActive = ()=>setIsActive(false);
   return <NavDropdownProviderContext.Provider value={{isActive, onActive, onDeActive}}>
     {isActive && <motion.div
-      initial={{y:-32,opacity:0}}
-      animate={{y:0,opacity:1}}
-      exit={{y:-32,opacity:0}}
-      className={"nav-dropdown-bg nav-dropdown-provider-active absolute top-0 left-0 bg-secondary w-full h-56 -z-10 rounded-b-4xl"}
+      initial={{opacity:0}}
+      animate={{opacity:1}}
+      exit={{opacity:0}}
+      layoutId='nav-dropdown-provider'
+      className={"nav-dropdown-bg nav-dropdown-provider-active apply-transition"}
       ref={ref}
     />}
     {children}
@@ -232,6 +235,7 @@ export const NavDropdown = ({ children }: { children: React.ReactNode }) => {
   const onActive = () => {
     providerOnActive();
     setIsLocalActive(true);
+    window.document.documentElement.setAttribute("data-nav-dropdown-active", "true");
     if ( body )
     {
       body.classList.add("nav-dropdown-active");
@@ -240,6 +244,7 @@ export const NavDropdown = ({ children }: { children: React.ReactNode }) => {
   const onDeActive = () => {
     providerOnDeActive();
     setIsLocalActive(false);
+    window.document.documentElement.setAttribute("data-nav-dropdown-active", "false");
     if ( body )
     {
       body.classList.remove("nav-dropdown-active");
@@ -309,6 +314,7 @@ export function NavDropdownTrigger({children}: {children: React.ReactNode}) {
   return <Button onBlur={localOnDeActive} onMouseLeave={localOnDeActive}
     onPointerEnter={localOnActive} onFocus={localOnActive} onPress={onPress}
     className='trigger-only' ref={button} tabIndex={-1}
+    disableRipple
     style={{width:'max-content!important'}}>{children}</Button>
 }
 

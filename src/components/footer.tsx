@@ -14,7 +14,7 @@ function Footer() {
         <span className={clsx(blockStyle, "p-3 text-center text-sm font-semibold")}>{language.data.site.name}</span>
         <div className={clsx(blockStyle, "py-2 px-3 flex flex-1 flex-wrap items-center gap-2 text-xs font-extrabold")}>
           <Link className='rounded-lg p-1' href="/thanks-to">{language.data.pages.thanks_for_everyone.title}</Link>
-          <Link className='rounded-lg p-1' href="https://status.osu.in.th/">{language.data.footer.links.status}</Link>
+          <Link className='rounded-lg p-1' target='_blank' href="https://status.osu.in.th/">{language.data.footer.links.status}</Link>
         </div>
       </div>
       <strong className='text-xs opacity-20'>{language.data.footer.made_with_love_by_community}</strong>
