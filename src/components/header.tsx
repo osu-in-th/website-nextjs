@@ -1,12 +1,12 @@
 "use client";
 import clsx from 'clsx'
 import React from 'react'
-import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react'
+import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, PressEvent } from '@heroui/react'
 import { useLanguage } from '@/contexts/languageContext'
 import { usePathname, useRouter } from 'next/navigation';
 import { GithubLogoIcon } from '@phosphor-icons/react/dist/ssr';
-import { useMediaQuery } from 'react-responsive';
 import { languages } from '@/utils/i18n';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 function Header() {
@@ -93,8 +93,26 @@ function Header() {
           </div>
           <nav className='flex-1 flex items-center justify-between gap-4'>
             <div className='flex items-center gap-2'>
-              <NavLink href='/'>{language.data.pages.home.title}</NavLink>
-              <NavLink href='/beatmapsets'>{language.data.pages.beatmap.title}</NavLink>
+              <NavDropdownProvider>
+                <NavDropdown>
+                  <NavDropdownTrigger>
+                    <NavLink href='/'>{language.data.pages.home.title}</NavLink>
+                  </NavDropdownTrigger>
+                  <NavDropdownBody>
+                    <NavLink href='/' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.home.title}</NavLink>
+                    <NavLink href='/download' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.download.title}</NavLink>
+                  </NavDropdownBody>
+                </NavDropdown>
+                <NavDropdown>
+                  <NavDropdownTrigger>
+                    <NavLink href='/beatmapsets'>{language.data.pages.beatmap.title}</NavLink>
+                  </NavDropdownTrigger>
+                  <NavDropdownBody>
+                    <NavLink href='/beatmapsets' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.beatmap.list}</NavLink>
+                    <NavLink href='/featured-artists' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.featured_artist.title}</NavLink>
+                  </NavDropdownBody>
+                </NavDropdown>
+              </NavDropdownProvider>
               <NavLink href='https://status.osu.in.th' target='_blank'>{language.data.pages.status.title}</NavLink>
             </div>
             <div className='flex items-center gap-2'>
@@ -146,11 +164,157 @@ function Header() {
   )
 }
 
-export function NavLink({href, target, className, children}: {href: string, target?: string, className?: string, children: React.ReactNode}) {
+export function NavLink({href, target, className, classNameWhenActive, children, motionLayoutId}: {href: string, target?: string, className?: string, classNameWhenActive?: string, children: React.ReactNode, motionLayoutId?: string}) {
   const pathname = usePathname();
   const isActive = href === pathname;
 
-  return <Link href={href} target={target} className={clsx("border-2 border-transparent p-1 font-bold text-white text-sm rounded-sm", isActive ? "active border-b-primary" : "", className)}>{children}</Link>
+  return <Link href={href} target={target} className={clsx("border-2 border-transparent p-1 font-bold text-white text-sm rounded-sm", isActive && "active border-b-primary", isActive && classNameWhenActive, className)}>
+    {
+      motionLayoutId && <motion.div className='motion-element' initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:1}} layoutId={motionLayoutId} />
+    }
+    {children}
+  </Link>
+}
+
+const NavDropdownProviderContext = React.createContext<{ isActive: boolean; onActive: ()=>void; onDeActive: ()=>void; }>({
+  isActive: false,
+  onActive: ()=>{},
+  onDeActive: ()=>{}
+});
+export const NavDropdownProvider = ({children}: {children: React.ReactNode}) => {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [isActive, setIsActive] = React.useState<boolean>(false);
+  const onActive = ()=>{
+    setIsActive(true);
+  }
+  const onDeActive = ()=>{
+    setIsActive(false);
+  }
+  return <NavDropdownProviderContext.Provider value={{isActive, onActive, onDeActive}}>
+    {isActive && <motion.div
+      initial={{y:-32,opacity:0}}
+      animate={{y:0,opacity:1}}
+      exit={{y:-32,opacity:0}}
+      className={"nav-dropdown-bg nav-dropdown-provider-active absolute top-0 left-0 bg-secondary w-full h-96 -z-10 rounded-b-4xl"}
+      ref={ref}
+    />}
+    {children}
+  </NavDropdownProviderContext.Provider>
+}
+export const useNavDropdownProvider = ()=>React.useContext(NavDropdownProviderContext);
+
+const NavDropdownContext = React.createContext<{
+  trigger: HTMLButtonElement | null;
+  setTrigger: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>;
+  body: HTMLDivElement | null;
+  isLocalActive: boolean;
+  setBody: React.Dispatch<React.SetStateAction<HTMLDivElement | null>>;
+  setIsTriggererTriggered: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsFocusingBody: React.Dispatch<React.SetStateAction<boolean>>;
+  onActive: ()=>void;
+  onDeActive: ()=>void;
+}>({
+  trigger: null,
+  setTrigger: ()=>{},
+  body: null,
+  isLocalActive: false,
+  setBody: ()=>{},
+  onActive: ()=>{},
+  onDeActive: ()=>{},
+  setIsTriggererTriggered: ()=>{},
+  setIsFocusingBody: ()=>{}
+});
+
+export const NavDropdown = ({ children }: { children: React.ReactNode }) => {
+  const {isActive} = useNavDropdownProvider();
+  const {onActive: providerOnActive, onDeActive: providerOnDeActive} = useNavDropdownProvider();
+  const [trigger, setTrigger] = React.useState<HTMLButtonElement | null>(null);
+  const [body, setBody] = React.useState<HTMLDivElement | null>(null);
+  const [isLocalActive, setIsLocalActive] = React.useState<boolean>(false);
+  const [isTriggererTriggered, setIsTriggererTriggered] = React.useState<boolean>(false);
+  const [isFocusingBody, setIsFocusingBody] = React.useState<boolean>(false);
+
+  const onActive = () => {
+    providerOnActive();
+    setIsLocalActive(true);
+    if ( body )
+    {
+      body.classList.add("nav-dropdown-active");
+    }
+  }
+  const onDeActive = () => {
+    providerOnDeActive();
+    setIsLocalActive(false);
+    if ( body )
+    {
+      body.classList.remove("nav-dropdown-active");
+    }
+  }
+
+  React.useEffect(()=>{
+    if ( !isFocusingBody && !isTriggererTriggered )
+    {
+      onDeActive();
+    }
+    else onActive();
+  },[isFocusingBody, isTriggererTriggered])
+  
+  return (
+    <NavDropdownContext.Provider value={{
+      trigger, setTrigger,
+      body, setBody,
+      isLocalActive,
+      onActive, onDeActive,
+      setIsFocusingBody,
+      setIsTriggererTriggered
+    }}>
+
+      <div className={clsx(
+        'nav-dropdown relative',
+        isLocalActive ?
+          ""
+        : ""
+      )}
+        onMouseEnter={()=>setIsFocusingBody(true)}
+        onMouseLeave={()=>setIsFocusingBody(false)}
+      >
+        {children}
+      </div>
+    </NavDropdownContext.Provider>
+  );
+};
+
+export const useNavDropdown = () => React.useContext(NavDropdownContext);
+
+export function NavDropdownBody({children}: {children: React.ReactNode}) {
+  const { setBody, isLocalActive } = useNavDropdown();
+  const ref = React.useRef<HTMLDivElement>(null);
+  React.useEffect(()=>{
+    if ( ref.current ) setBody(ref.current);
+  }, [ref]);
+  return isLocalActive && <motion.div
+    initial={{y:-32,opacity:0}}
+    animate={{y:0,opacity:1}}
+    exit={{y:-32,opacity:0}}
+    className='nav-dropdown-body nav-dropdown-active' ref={ref}>{children}</motion.div>
+}
+
+export function NavDropdownTrigger({children}: {children: React.ReactNode}) {
+  const { setTrigger, setIsTriggererTriggered } = useNavDropdown();
+  const button = React.useRef<HTMLButtonElement>(null);
+  React.useEffect(()=>{
+    if ( button.current ) setTrigger(button.current);
+  }, [button]);
+  const onPress = (e: PressEvent) => {
+    e.continuePropagation();
+    localOnActive();
+  }
+  const localOnActive = ()=>setIsTriggererTriggered(true)
+  const localOnDeActive = ()=>setIsTriggererTriggered(false)
+  return <Button onBlur={localOnDeActive} onMouseLeave={localOnDeActive}
+    onPointerEnter={localOnActive} onFocus={localOnActive} onPress={onPress}
+    className='trigger-only' ref={button} tabIndex={-1}
+    style={{width:'max-content!important'}}>{children}</Button>
 }
 
 export default Header

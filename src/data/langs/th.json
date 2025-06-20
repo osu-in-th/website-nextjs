@@ -39,7 +39,14 @@
             }
         },
         "beatmap": {
-            "title": "บีทแมพ"
+            "title": "บีทแมพ",
+            "list": "รายการบีทแมพ"
+        },
+        "featured_artist": {
+            "title": "ศิลปินโดดเด่น"
+        },
+        "download": {
+            "title": "ดาวน์โหลด"
         },
         "status": {
             "title": "สถานะ"

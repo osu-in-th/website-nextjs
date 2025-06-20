@@ -12,8 +12,8 @@ button.trigger-only {
     position: unset !important;
     overflow: unset !important;
     display: block !important;
-    min-width: none !important;
-    min-height: none !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
     width: 100% !important;
     height: 100% !important;
     max-width: none !important;

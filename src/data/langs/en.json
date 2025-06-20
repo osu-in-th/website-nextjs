@@ -39,7 +39,14 @@
             }
         },
         "beatmap": {
-            "title": "Beatmap"
+            "title": "Beatmap",
+            "list": "Beatmap lists"
+        },
+        "featured_artist": {
+            "title": "Featured Artists"
+        },
+        "download": {
+            "title": "Download"
         },
         "status": {
             "title": "Status"
