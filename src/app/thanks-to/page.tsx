@@ -3,10 +3,10 @@
 import React, { Fragment } from 'react'
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
-import { Avatar, AvatarIcon, Button, CircularProgress, Image, Tooltip } from '@heroui/react'
+import { Avatar, AvatarIcon, Button, Chip, CircularProgress, Image, Tooltip } from '@heroui/react'
 import communityArts from "@/data/community-arts.json"
 import { useLanguage } from '@/contexts/languageContext'
-import { CaretLeftIcon, CaretRightIcon, HeartIcon } from "@phosphor-icons/react/dist/ssr"
+import { ArrowUpRightIcon, CaretLeftIcon, CaretRightIcon, HeartIcon } from "@phosphor-icons/react/dist/ssr"
 import { NextButton, PrevButton, usePrevNextButtons } from "@/components/carousel/emblaArrowButtons"
 import { DotButton, useDotButton } from "@/components/carousel/emblaDotButton"
 import useEmblaCarousel from "embla-carousel-react"
@@ -148,6 +148,18 @@ function ThanksToCommunity() {
                                 />
                             ))}
                         </div>
+                    </div>
+                </section>
+                <section className='w-full flex max-[32rem]:flex-col max-[32rem]:items-center max-[32rem]:gap-8 justify-around gap-4 mt-12'>
+                    <div className='flex flex-col max-[32rem]:w-full gap-2 sm:p-8'>
+                        <h1 className='text-4xl font-bold'>Default User Avatar</h1>
+                        <p>by <Link href="https://www.reddit.com/user/Kiraise_Mangi/" target='_blank'>Kiraise_Mangi <Chip size='sm' className='text-xs bg-amber-700' endContent={<ArrowUpRightIcon weight='bold' />}>Reddit</Chip></Link></p>
+                    </div>
+                    <div>
+                        <Image className='max-[32rem]:max-h-52' src="https://static.osu.in.th/images/default-userprofile.png" />
+                        <p className='text-xs text-foreground/70 mt-2'>
+                            <Link href="https://www.reddit.com/r/osugame/comments/1camq31/osu_default_profile_picture_fanart/" target='_blank'>Ref: <Chip size='sm' className='text-xs bg-amber-700' endContent={<ArrowUpRightIcon weight='bold' />}>Reddit</Chip></Link>
+                        </p>
                     </div>
                 </section>
             </section>

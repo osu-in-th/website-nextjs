@@ -40,7 +40,67 @@
         },
         "beatmap": {
             "title": "Beatmap",
-            "list": "Beatmap lists"
+            "list": "Beatmap lists",
+            "filter": {
+                "title": "Filters",
+                "unauthorized": "Please sign in to filter",
+                "search": {
+                    "placeholder": "Search for beatmaps",
+                    "unauthorized": "Please sign in to search"
+                },
+                "only": {
+                    "title": "Only",
+                    "recommended_dif": "Recommended difficulty",
+                    "converted_map": "Include converted beatmaps",
+                    "subscribed_mappers": "Subscribed mappers",
+                    "spotlighted_maps": "Spotlighted beatmaps",
+                    "featured_artists": "Featured Artists"
+                },
+                "mode": "Mode",
+                "category": {
+                    "title": "Category",
+                    "has_leaderboard": "Has Leaderboard",
+                    "ranked": "Ranked",
+                    "qualified": "Qualified",
+                    "loved": "Loved",
+                    "favourite": "Favourite",
+                    "pending": "Pending",
+                    "wip": "WIP",
+                    "graveyard": "Graveyard",
+                    "my_maps": "บีทแมMy Mapsพของฉัน"
+                },
+                "explicit_content": "Explicit Content",
+                "hide": "Hide",
+                "show": "Show",
+                "any": "Any"
+            },
+            "sort": {
+                "title": "Sort by",
+                "options": {
+                    "title": "Title",
+                    "artist": "Artist",
+                    "hardest": "Difficulty",
+                    "ranked": "Ranked",
+                    "highest_rated": "Rating",
+                    "most_played": "Plays",
+                    "most_favorited": "Favorites"
+                }
+            },
+            "details": {
+                "title": "Beatmap details"
+            },
+            "featured": "Featured beatmaps",
+            "featured_description": "Featured beatmaps are beatmaps selected by the Osu! community to showcase the talent and creativity of their creators.",
+            "featured_empty": "There are currently no featured beatmaps.",
+            "featured_empty_description": "You can help by creating a featured beatmap and submitting it to us!",
+            "featured_empty_cta": "Create a featured beatmap",
+            "featured_cta": "View featured beatmaps",
+            "featured_artist_description": "Featured artists are artists who have worked on Osu! Selected by the community to showcase their talent and creativity",
+            "featured_artist_empty": "There are currently no featured artists",
+            "featured_artist_empty_description": "You can help by creating a featured beatmap and submitting it to us!",
+            "featured_artist_empty_cta": "Create a featured beatmap",
+            "no_results": "No results found",
+            "no_results_description": "Try refining your search or using filters to find the beatmap you're looking for"
         },
         "featured_artist": {
             "title": "Featured Artists"

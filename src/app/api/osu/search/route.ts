@@ -1,7 +1,6 @@
 import axios from 'axios';
 import RedisClient from '@/lib/redis';
-
-const allowedOrigins = ['https://osu.in.th', 'https://xn--73cf8ayb.xn--o3cw4h'];
+import { allowedOrigins } from '@/lib/cors';
 
 export async function GET(req: Request) {
     const origin = req.headers.get('origin') || "";
@@ -16,6 +15,46 @@ export async function GET(req: Request) {
                 },
             });
         }
+    }
+
+    const redis = new RedisClient();
+    if (!redis.client) {
+        return new Response(JSON.stringify({ error: 'Redis client not initialized' }), {
+            status: 500,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': origin,
+            },
+        });
+    }
+
+    const cookie = req.headers.get('cookie') || '';
+    if (cookie && !cookie.includes('osu_session')) {
+        const cacheKey = `osu_search:browse`;
+        const cached = await redis.client.get(cacheKey);
+        if (cached) {
+            return new Response(cached, {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': origin,
+                },
+            });
+        }
+        const osuRes = await axios.get(`https://osu.ppy.sh/beatmapsets/search`, {
+            headers: {
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+            },
+        });
+        const data = osuRes.data;
+        await redis.client.set(cacheKey, JSON.stringify(data), 'EX', 60 * 30); // 30 min cache
+        return new Response(JSON.stringify(data), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': origin,
+            },
+        });
     }
 
     const url = new URL(req.url);
@@ -45,7 +84,6 @@ export async function GET(req: Request) {
         "&s=" + encodeURIComponent(s) +
         "&cursor_string=" + encodeURIComponent(cursor_string);
 
-    const redis = new RedisClient();
     const cacheKey = `osu_search:${full_query}`;
     const cached = await redis.client.get(cacheKey);
     if (cached) {

@@ -10,7 +10,7 @@ export interface SearchFilter {
     g?: string;
     l?: string;
     m?: string;
-    nsfw?: boolean;
+    nsfw?: string;
     played?: boolean;
     q?: string;
     r?: string;

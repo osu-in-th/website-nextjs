@@ -92,7 +92,7 @@ function Header() {
             </Link>
           </div>
           <nav className='flex-1 flex items-center justify-between gap-4'>
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center'>
               <AnimatePresence>
                 <NavDropdownProvider>
                   <NavDropdown>
@@ -100,8 +100,8 @@ function Header() {
                       <NavLink href='/'>{language.data.pages.home.title}</NavLink>
                     </NavDropdownTrigger>
                     <NavDropdownBody>
-                      <NavLink href='/' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.home.title}</NavLink>
-                      <NavLink href='/download' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.download.title}</NavLink>
+                      <NavLink isChild href='/' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.home.title}</NavLink>
+                      <NavLink isChild href='/download' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.download.title}</NavLink>
                     </NavDropdownBody>
                   </NavDropdown>
                   <NavDropdown>
@@ -109,8 +109,8 @@ function Header() {
                       <NavLink href='/beatmapsets'>{language.data.pages.beatmap.title}</NavLink>
                     </NavDropdownTrigger>
                     <NavDropdownBody>
-                      <NavLink href='/beatmapsets' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.beatmap.list}</NavLink>
-                      <NavLink href='/featured-artists' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.featured_artist.title}</NavLink>
+                      <NavLink isChild href='/beatmapsets' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.beatmap.list}</NavLink>
+                      <NavLink isChild href='/featured-artists' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.featured_artist.title}</NavLink>
                     </NavDropdownBody>
                   </NavDropdown>
                 </NavDropdownProvider>
@@ -166,15 +166,20 @@ function Header() {
   )
 }
 
-export function NavLink({href, target, className, classNameWhenActive, children, motionLayoutId}: {href: string, target?: string, className?: string, classNameWhenActive?: string, children: React.ReactNode, motionLayoutId?: string}) {
+export function NavLink({href, target, className, classNameWhenActive, children, motionLayoutId, isChild}: {href: string, target?: string, className?: string, classNameWhenActive?: string, children: React.ReactNode, motionLayoutId?: string, isChild?: boolean}) {
   const pathname = usePathname();
   const isActive = href === pathname;
 
-  return <Link href={href} target={target} className={clsx("border-2 border-transparent p-1 font-bold text-white text-sm rounded-sm", isActive && "active border-b-primary", isActive && classNameWhenActive, className)}>
+  return <Link href={href} target={target} className={clsx("p-1 px-3 font-bold text-white text-sm rounded-xs relative flex", isActive && "active border-b-primary", isActive && classNameWhenActive, className)}>
     {
       motionLayoutId && <motion.div className='motion-element' initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:1}} layoutId={motionLayoutId} />
     }
-    {children}
+    <div className='relative pointer-events-none'>
+      {children}
+      {
+        isActive && !isChild && <motion.div className='absolute -bottom-2 left-0 w-full h-[2px] bg-primary' initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:1}} layoutId="active-nav-link" />
+      }
+    </div>
   </Link>
 }
 

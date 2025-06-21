@@ -21,13 +21,13 @@ export default function Home() {
 
   return (
     <>
-      <section id="head-of-main-content" className="flex flex-col items-center justify-items-center w-screen min-h-96 h-[64vh] max-h-[640px] -mt-24 p-8 pb-20 gap-6 sm:p-20 relative">
+      <section id="head-of-main-content" className="flex flex-col items-center justify-items-center w-screen min-h-96 h-[64vh] max-h-[640px] -mt-[6.4rem] p-8 pb-20 gap-6 sm:p-20 relative">
         <div className="absolute top-0 left-0 h-full w-full">
           <Image src={"https://static.osu.in.th/images/"+hero_bg_image.filename} className="w-full h-full object-cover rounded-none" classNames={{
             wrapper: "h-full w-full !max-w-none overflow-hidden rounded-none rounded-b-4xl"
           }} />
           <div className="absolute z-10 top-0 left-0 w-full h-full bg-gradient-to-t from-transparent to-black/80" />
-          <span className="absolute font-bold opacity-60 bottom-4 left-4 z-40 select-none text-shadow-lg">{language.data.pages.home.imageby} <Link href={hero_bg_image.author.url} target="_blank">{hero_bg_image.author.name}</Link></span>
+          <span className="absolute text-xs font-bold opacity-20 bottom-4 left-4 z-40 select-none text-shadow-lg">{language.data.pages.home.imageby} <Link href={hero_bg_image.author.url} target="_blank">{hero_bg_image.author.name}</Link></span>
         </div>
         <div className="z-10 w-full max-w-3xl h-full flex flex-col gap-4 items-center justify-center mt-24">
           <div className="w-full flex gap-2">
