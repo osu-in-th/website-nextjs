@@ -31,7 +31,7 @@ export type Beatmap = {
     count_spinners: number
     cs: number;
     deleted_at: string | null;
-    difficultyrating: number;
+    difficulty_rating: number;
     drain: number;
     hit_length: number;
     id: number;

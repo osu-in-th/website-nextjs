@@ -28,15 +28,15 @@ button, a, .apply-transition, .animation-wrapper * {
     pointer-events: none;
 }
 
-a:active,
-button:active,
-[data-pressed="true"] {
+a:not(.disable-active-animation):active,
+button:not(.disable-active-animation):active,
+[data-pressed="true"]:not(.disable-active-animation) {
   scale: 0.98;
   transition-duration: .12s;
   /* backdrop-filter: blur(8px); */
 }
-a:active,
-[data-pressed="true"]:active {filter:opacity(.64)}
+a:not(.disable-active-animation):active,
+[data-pressed="true"]:not(.disable-active-animation):active {filter:opacity(.64)}
 
 .osu-animate-background,
 .osu-animate-background-on-hover:hover {

@@ -44,6 +44,10 @@
             "filter": {
                 "title": "Filters",
                 "unauthorized": "Please sign in to filter",
+                "fullscreen": {
+                    "active": "Scale to fullscreen",
+                    "inactive": "Scale to window"
+                },
                 "search": {
                     "placeholder": "Search for beatmaps",
                     "unauthorized": "Please sign in to search"
@@ -67,7 +71,7 @@
                     "pending": "Pending",
                     "wip": "WIP",
                     "graveyard": "Graveyard",
-                    "my_maps": "บีทแมMy Mapsพของฉัน"
+                    "my_maps": "My Maps"
                 },
                 "explicit_content": "Explicit Content",
                 "hide": "Hide",
@@ -81,13 +85,41 @@
                     "artist": "Artist",
                     "hardest": "Difficulty",
                     "ranked": "Ranked",
-                    "highest_rated": "Rating",
-                    "most_played": "Plays",
-                    "most_favorited": "Favorites"
+                    "rated": "Rating",
+                    "played": "Plays",
+                    "favorited": "Favorites"
+                },
+                "by": {
+                    "desc": "Descending",
+                    "asc": "Ascending"
                 }
             },
             "details": {
-                "title": "Beatmap details"
+                "title": "Beatmap details",
+                "by": "by",
+                "mapped_by": "Created by",
+                "artist": "Artist",
+                "mode": "Mode",
+                "status": {
+                    "title": "Status",
+                    "ranked": "Ranked",
+                    "qualified": "Qualified",
+                    "loved": "Loved",
+                    "favourite": "Favourite",
+                    "pending": "Pending",
+                    "wip": "WIP",
+                    "graveyard": "Graveyard"
+                },
+                "length": "Length",
+                "bpm": "BPM",
+                "difficulty": "Difficulty",
+                "difficulty_rating": "Difficulty Rating",
+                "rating": "Rating",
+                "favourite_count": "Number of favorites",
+                "play_count": "Number of plays",
+                "last_update": "Last updated",
+                "download": "Download",
+                "download_count": "Number of downloads"
             },
             "featured": "Featured beatmaps",
             "featured_description": "Featured beatmaps are beatmaps selected by the Osu! community to showcase the talent and creativity of their creators.",
@@ -100,7 +132,9 @@
             "featured_artist_empty_description": "You can help by creating a featured beatmap and submitting it to us!",
             "featured_artist_empty_cta": "Create a featured beatmap",
             "no_results": "No results found",
-            "no_results_description": "Try refining your search or using filters to find the beatmap you're looking for"
+            "no_results_description": "Try refining your search or using filters to find the beatmap you're looking for",
+            "load_more": "Load more",
+            "load_more_error": "Error while loading more beatmaps"
         },
         "featured_artist": {
             "title": "Featured Artists"

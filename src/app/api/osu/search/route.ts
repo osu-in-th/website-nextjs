@@ -29,8 +29,10 @@ export async function GET(req: Request) {
     }
 
     const cookie = req.headers.get('cookie') || '';
+    const url = new URL(req.url);
+    const cursor_string = url.searchParams.get('cursor_string') ?? '';
     if (cookie && !cookie.includes('osu_session')) {
-        const cacheKey = `osu_search:browse`;
+        const cacheKey = `osu_search:browse${cursor_string? `:${cursor_string}` : ''}`;
         const cached = await redis.client.get(cacheKey);
         if (cached) {
             return new Response(cached, {
@@ -41,7 +43,11 @@ export async function GET(req: Request) {
                 },
             });
         }
-        const osuRes = await axios.get(`https://osu.ppy.sh/beatmapsets/search`, {
+        const createUrl = new URL('https://osu.ppy.sh/beatmapsets/search');
+        if (cursor_string) {
+            createUrl.searchParams.set('cursor_string', cursor_string);
+        }
+        const osuRes = await axios.get(createUrl.toString(), {
             headers: {
                 "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
             },
@@ -57,7 +63,6 @@ export async function GET(req: Request) {
         });
     }
 
-    const url = new URL(req.url);
     const query = url.searchParams.get('q') ?? '';
     const e = url.searchParams.get('e') ?? '';
     const c = url.searchParams.get('c') ?? '';
@@ -69,7 +74,6 @@ export async function GET(req: Request) {
     const r = url.searchParams.get('r') ?? '';
     const sort = url.searchParams.get('sort') ?? '';
     const s = url.searchParams.get('s') ?? '';
-    const cursor_string = url.searchParams.get('cursor_string') ?? '';
     const full_query =
         "q=" + encodeURIComponent(query) +
         "&e=" + encodeURIComponent(e) +

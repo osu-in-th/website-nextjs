@@ -99,18 +99,18 @@ function Header() {
                     <NavDropdownTrigger>
                       <NavLink href='/'>{language.data.pages.home.title}</NavLink>
                     </NavDropdownTrigger>
-                    <NavDropdownBody>
-                      <NavLink isChild href='/' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.home.title}</NavLink>
-                      <NavLink isChild href='/download' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.download.title}</NavLink>
+                    <NavDropdownBody layoutId='home-nav-extended'>
+                      <NavLink isChild href='/' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended-home'>{language.data.pages.home.title}</NavLink>
+                      <NavLink isChild href='/download' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended-download'>{language.data.pages.download.title}</NavLink>
                     </NavDropdownBody>
                   </NavDropdown>
                   <NavDropdown>
                     <NavDropdownTrigger>
                       <NavLink href='/beatmapsets'>{language.data.pages.beatmap.title}</NavLink>
                     </NavDropdownTrigger>
-                    <NavDropdownBody>
-                      <NavLink isChild href='/beatmapsets' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.beatmap.list}</NavLink>
-                      <NavLink isChild href='/featured-artists' classNameWhenActive='osu-animate-background' motionLayoutId='home-nav-extended'>{language.data.pages.featured_artist.title}</NavLink>
+                    <NavDropdownBody layoutId='beatmapsets-nav-extended'>
+                      <NavLink isChild href='/beatmapsets' classNameWhenActive='osu-animate-background' motionLayoutId='beatmapsets-nav-extended-beatmapsets'>{language.data.pages.beatmap.list}</NavLink>
+                      <NavLink isChild href='/featured-artists' classNameWhenActive='osu-animate-background' motionLayoutId='beatmapsets-nav-extended-featured-artists'>{language.data.pages.featured_artist.title}</NavLink>
                     </NavDropdownBody>
                   </NavDropdown>
                 </NavDropdownProvider>
@@ -169,15 +169,27 @@ function Header() {
 export function NavLink({href, target, className, classNameWhenActive, children, motionLayoutId, isChild}: {href: string, target?: string, className?: string, classNameWhenActive?: string, children: React.ReactNode, motionLayoutId?: string, isChild?: boolean}) {
   const pathname = usePathname();
   const isActive = href === pathname;
+  const { setIsFocusingBody } = useNavDropdown();
 
-  return <Link href={href} target={target} className={clsx("p-1 px-3 font-bold text-white text-sm rounded-xs relative flex", isActive && "active border-b-primary", isActive && classNameWhenActive, className)}>
+  return <Link href={href} target={target}
+    onFocus={() => {
+      if ( isChild ) setIsFocusingBody(true);
+    }}
+    onBlur={() => {
+      if ( isChild ) setIsFocusingBody(false);
+    }}
+    className={clsx(
+      "p-1 px-3 font-bold text-white text-sm rounded-xs relative flex",
+      isActive && "active border-b-primary",
+      isActive && classNameWhenActive, className
+    )}>
     {
       motionLayoutId && <motion.div className='motion-element' initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:1}} layoutId={motionLayoutId} />
     }
     <div className='relative pointer-events-none'>
       {children}
       {
-        isActive && !isChild && <motion.div className='absolute -bottom-2 left-0 w-full h-[2px] bg-primary' initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:1}} layoutId="active-nav-link" />
+        isActive && !isChild && <motion.div className='absolute -bottom-2 left-0 w-full h-[2px] bg-primary' initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:1}} layoutId={"active-nav-link"} />
       }
     </div>
   </Link>
@@ -191,17 +203,27 @@ const NavDropdownProviderContext = React.createContext<{ isActive: boolean; onAc
 export const NavDropdownProvider = ({children}: {children: React.ReactNode}) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = React.useState<boolean>(false);
+  const [delayedIsActive, setDelayedIsActive] = React.useState(false);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDelayedIsActive(isActive);
+    }, 20);
+
+    return () => clearTimeout(timeout);
+  }, [isActive]);
   const onActive = ()=>setIsActive(true);
   const onDeActive = ()=>setIsActive(false);
-  return <NavDropdownProviderContext.Provider value={{isActive, onActive, onDeActive}}>
-    {isActive && <motion.div
-      initial={{opacity:0}}
-      animate={{opacity:1}}
-      exit={{opacity:0}}
-      layoutId='nav-dropdown-provider'
-      className={"nav-dropdown-bg nav-dropdown-provider-active apply-transition"}
-      ref={ref}
-    />}
+  return <NavDropdownProviderContext.Provider value={{isActive: delayedIsActive, onActive, onDeActive}}>
+    <AnimatePresence>
+      {delayedIsActive && <motion.div
+        initial={{opacity:0}}
+        animate={{opacity:1}}
+        exit={{opacity:0}}
+        layoutId='nav-dropdown-provider'
+        className={"nav-dropdown-bg nav-dropdown-provider-active apply-transition"}
+        ref={ref}
+      />}
+    </AnimatePresence>
     {children}
   </NavDropdownProviderContext.Provider>
 }
@@ -228,12 +250,19 @@ const NavDropdownContext = React.createContext<{
   setIsTriggererTriggered: ()=>{},
   setIsFocusingBody: ()=>{}
 });
-
 export const NavDropdown = ({ children }: { children: React.ReactNode }) => {
   const {onActive: providerOnActive, onDeActive: providerOnDeActive} = useNavDropdownProvider();
   const [trigger, setTrigger] = React.useState<HTMLButtonElement | null>(null);
   const [body, setBody] = React.useState<HTMLDivElement | null>(null);
   const [isLocalActive, setIsLocalActive] = React.useState<boolean>(false);
+  const [delayedIsLocalActive, setDelayedIsLocalActive] = React.useState(false);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDelayedIsLocalActive(isLocalActive);
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [isLocalActive]);
   const [isTriggererTriggered, setIsTriggererTriggered] = React.useState<boolean>(false);
   const [isFocusingBody, setIsFocusingBody] = React.useState<boolean>(false);
 
@@ -268,15 +297,14 @@ export const NavDropdown = ({ children }: { children: React.ReactNode }) => {
     <NavDropdownContext.Provider value={{
       trigger, setTrigger,
       body, setBody,
-      isLocalActive,
+      isLocalActive: delayedIsLocalActive,
       onActive, onDeActive,
       setIsFocusingBody,
       setIsTriggererTriggered
     }}>
-
       <div className={clsx(
         'nav-dropdown relative',
-        isLocalActive ?
+        delayedIsLocalActive ?
           ""
         : ""
       )}
@@ -288,10 +316,9 @@ export const NavDropdown = ({ children }: { children: React.ReactNode }) => {
     </NavDropdownContext.Provider>
   );
 };
-
 export const useNavDropdown = () => React.useContext(NavDropdownContext);
 
-export function NavDropdownBody({children}: {children: React.ReactNode}) {
+export function NavDropdownBody({children, layoutId}: {children: React.ReactNode, layoutId?: string}) {
   const { setBody, isLocalActive } = useNavDropdown();
   const ref = React.useRef<HTMLDivElement>(null);
   React.useEffect(()=>{
