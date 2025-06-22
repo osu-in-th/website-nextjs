@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
   const origin = request.headers.get('origin') ?? ''
   const isAllowedOrigin = allowedOrigins.includes(origin)
 
-  console.log(`CORS Middleware: Origin ${origin} is ${isAllowedOrigin ? 'allowed' : 'not allowed'}`)
+  console.log(`CORS Middleware: Origin header = '${origin}' → ${isAllowedOrigin ? 'allowed' : 'not allowed'}`)
  
   // Handle preflighted requests
   const isPreflight = request.method === 'OPTIONS'
@@ -27,10 +27,13 @@ export function middleware(request: NextRequest) {
  
   // Handle simple requests
   const response = NextResponse.next()
- 
-  if (isAllowedOrigin) {
-    response.headers.set('Access-Control-Allow-Origin', origin)
+  response.headers.set('Access-Control-Allow-Origin', allowedOrigins[0])
+  if (!origin) {
+    // Probably a same-origin or non-browser request
+    return NextResponse.next()
   }
+  else if ( origin && !isAllowedOrigin )
+    return NextResponse.json({ error: 'Origin not allowed' }, { status: 403 })
  
   Object.entries(corsOptions).forEach(([key, value]) => {
     response.headers.set(key, value)
