@@ -8,6 +8,7 @@ import { OsuModeIcon } from '@/components/icons/mode'
 import { useLanguage } from '@/contexts/languageContext'
 import { getColorFromDiffucultyFloat } from '@/utils/osu/color'
 import clsx from 'clsx'
+import { useRouter } from 'next/navigation';
 
 export interface BeatmapSetClassNames {
     layout?: string;
@@ -37,13 +38,16 @@ export interface BeatmapSetClassNames {
         wrapper?: string;
         icon?: string;
         stick?: string;
+        stickWrapper?: string;
     }
 }
 
 function BeatmapSet({ beatmapset, viewMode, classNames, classname = 'list' }: { beatmapset: BeatmapSet, classname?: string, classNames?: BeatmapSetClassNames, viewMode: 'grid' | 'list' }) {
     const randomId = React.useId();
+    const router = useRouter();
     const {language} = useLanguage();
-    const difficulty_stick_style = 'flex items-center gap-[2px] h-4 flex-1 overflow-hidden';
+    const difficulty_stick_wrapper_style = 'flex items-center gap-[2px] h-4 w-max overflow-hidden';
+    const difficulty_stick_style = 'h-full w-[6px] min-w-[6px] max-w-[6px] rounded-full bg-(--difficulty-color)';
     const beatmapHref = `/beatmapsets/${beatmapset.id}`;
     const creatorHref = `/users/${beatmapset.user_id}`;
     return (
@@ -59,25 +63,31 @@ function BeatmapSet({ beatmapset, viewMode, classNames, classname = 'list' }: { 
             )}
         >
             <Button className={clsx(
-                '!block !p-0 w-full h-full',
+                '!block !p-0 w-full h-max rounded-2xl overflow-hidden',
+                viewMode === 'grid' ? 'rounded-3xl' : '',
                 classNames?.wrapper
-            )}>
+            )} onPress={()=>router.push(beatmapHref)}>
                 <motion.div
                     layoutId={`beatmapset-base-${randomId}-${beatmapset.id}`}
                     className={clsx(
                         'flex gap-2 bg-content3 rounded-2xl hover:bg-content3/80 transition-colors overflow-hidden relative',
-                        viewMode === 'grid' ? 'flex-col items-center justify-center p-4 h-64' : '',
+                        viewMode === 'grid' ? 'flex-col items-center justify-center p-4 rounded-3xl' : '',
                         classNames,
                         classNames?.base
                     )}
                 >
-                    <Link href={beatmapHref} className='disable-active-animation'>
-                        <Image src={beatmapset.covers.list} alt={beatmapset.title} className={clsx(
-                            'object-cover rounded-2xl',
-                            viewMode === 'grid' ? 'w-36 h-36 min-w-36 min-h-36' : 'w-24 h-24 min-w-24 min-h-24',
+                    <Link tabIndex={-1} href={beatmapHref} className='disable-active-animation contents'>
+                        <Image src={
+                            viewMode === 'grid' ? beatmapset.covers['list@2x'] : beatmapset.covers.list
+                        } alt={beatmapset.title} className={clsx(
+                            'object-cover rounded-2xl aspect-square pointer-events-none',
+                            viewMode === 'grid' ? 'w-full min-w-full' : 'h-28 min-h-28',
                             classNames?.image?.image
                         )} classNames={{
-                            wrapper: "z-10",
+                            wrapper: clsx(
+                                "z-10",
+                                viewMode === 'grid' ? 'w-full min-w-full' : 'h-max min-h-max',
+                            ),
                             ...classNames?.image?.classNames
                         }} />
                     </Link>
@@ -94,52 +104,50 @@ function BeatmapSet({ beatmapset, viewMode, classNames, classname = 'list' }: { 
                         )}
                     >
                         <Image src={beatmapset.covers.card} alt={beatmapset.title} className={clsx(
-                            'object-cover rounded-none blur-lg scale-150 saturate-200',
+                            'object-cover rounded-none blur-lg h-full scale-150 saturate-200',
                             classNames?.backdrop?.image?.image
                         )} classNames={{
-                            wrapper: "z-10 opacity-40",
+                            wrapper: "z-10 opacity-40 h-full",
                             ...classNames?.backdrop?.image?.classNames
                         }} />
-                        {
-                            viewMode === 'list' &&
-                            <div className={
-                                clsx(
-                                    'absolute top-0 left-0 w-full h-full bg-gradient-to-l from-transparent to-content3 z-20',
-                                    classNames?.backdrop?.overlay
-                                )
-                            } />
-                        }
+                        <div className={
+                            clsx(
+                                'absolute top-0 left-0 w-full h-full bg-gradient-to-l from-transparent to-content3 z-20',
+                                viewMode === 'grid' ? 'bg-gradient-to-b' : '',
+                                classNames?.backdrop?.overlay
+                            )
+                        } />
                     </motion.div>
                     <div className={clsx(
                         'flex flex-col flex-1 min-w-0 py-2 px-1 z-10 relative',
                         viewMode === 'grid' ? 'items-center justify-center text-center w-full' : 'items-start justify-start',
                         classNames?.content
                     )}>
-                        <Link href={beatmapHref}
+                        <Link href={beatmapHref} tabIndex={-1}
                             className='absolute left-0 top-0 w-full h-full z-10' />
-                        <Tooltip size='sm' showArrow offset={0} classNames={{
+                        <Tooltip size='sm' showArrow offset={0} tabIndex={-1} classNames={{
                             content: "text-xs",
                             ...classNames?.title?.tooltip
-                        }} tabIndex={-1} content={beatmapset.title} className='max-w-full'>
-                            <Link href={beatmapHref} className='z-10 w-max max-w-full disable-active-animation'>
+                        }} content={beatmapset.title} className='max-w-full'>
+                            <Link tabIndex={-1} href={beatmapHref} className='z-10 w-max max-w-full disable-active-animation'>
                                 <h1 tabIndex={-1} className={clsx(
-                                    'w-max max-w-full text-sm font-bold line-clamp-1',
+                                    'w-max max-w-full text-sm font-bold line-clamp-1 text-ellipsis',
                                     classNames?.title?.content
                                 )}>{beatmapset.title}</h1>
                             </Link>
                         </Tooltip>
                         <p className={clsx(
-                            'text-[10px] text-foreground/70 max-w-full line-clamp-1',
+                            'text-[10px] text-foreground/70 max-w-full line-clamp-1 text-ellipsis',
                             classNames?.author
                         )}>{language.data.pages.beatmap.details.by} {beatmapset.artist}</p>
                         <div className={clsx(
-                            'text-[10px] my-1 font-semibold text-foreground/70 max-w-full line-clamp-1 z-10 select-none flex items-center gap-1',
+                            'text-[10px] py-1 pr-1 font-semibold text-foreground/70 max-w-full line-clamp-1 text-ellipsis z-10 select-none flex items-center gap-1',
                             classNames?.creator
                         )}>
-                            <Link href={beatmapHref} className='z-10 w-max max-w-full disable-active-animation'>
+                            <Link tabIndex={-1} href={beatmapHref} className='z-10 w-max max-w-full disable-active-animation'>
                                 <span className='pointer-events-none'>{language.data.pages.beatmap.details.mapped_by}</span>
                             </Link>
-                            <Link href={creatorHref}>{beatmapset.creator}</Link>
+                            <Link className='rounded-sm !outline-offset-1' href={creatorHref}>{beatmapset.creator}</Link>
                         </div>
                         <div className={clsx(
                             'flex items-center gap-1 mt-auto',
@@ -175,25 +183,28 @@ function BeatmapSet({ beatmapset, viewMode, classNames, classname = 'list' }: { 
                                 osu_catch = osu_catch.sort((a, b) => a.difficulty_rating - b.difficulty_rating);
                                 osu_mania = osu_mania.sort((a, b) => a.difficulty_rating - b.difficulty_rating);
                                 let total_difficulty = osu_standard.length + osu_taiko.length + osu_catch.length + osu_mania.length;
-                                if (total_difficulty > 13) {
+                                if (total_difficulty > 8) {
                                     return <>
-                                        {osu_standard.length > 0 && <OsuModeIcon mode='osu' className={classNames?.sets?.icon} />}
-                                        {osu_taiko.length > 0 && <OsuModeIcon mode='taiko' className={classNames?.sets?.icon} />}
-                                        {osu_catch.length > 0 && <OsuModeIcon mode='fruits' className={classNames?.sets?.icon} />}
-                                        {osu_mania.length > 0 && <OsuModeIcon mode='mania' className={classNames?.sets?.icon} />}
-                                        ({total_difficulty})
+                                        {osu_standard.length > 0 && <OsuModeIcon mode='osu' size={16} className={classNames?.sets?.icon} />}
+                                        {osu_taiko.length > 0 && <OsuModeIcon mode='taiko' size={16} className={classNames?.sets?.icon} />}
+                                        {osu_catch.length > 0 && <OsuModeIcon mode='fruits' size={16} className={classNames?.sets?.icon} />}
+                                        {osu_mania.length > 0 && <OsuModeIcon mode='mania' size={16} className={classNames?.sets?.icon} />}
+                                        <span className='font-semibold text-xs'>({total_difficulty})</span>
                                     </>
                                 }
                                 return <>
                                     {osu_standard.length > 0 && <>
                                         <OsuModeIcon mode='osu' size={16} className={classNames?.sets?.icon} />
                                         <div className={clsx(
-                                            difficulty_stick_style,
-                                            classNames?.sets?.stick
+                                            difficulty_stick_wrapper_style,
+                                            classNames?.sets?.stickWrapper
                                         )}>
                                             {
                                                 osu_standard.map((beatmap, index) => (
-                                                    <div className='h-full w-[6px] rounded-full bg-(--difficulty-color)' style={{ "--difficulty-color": getColorFromDiffucultyFloat(beatmap.difficulty_rating) } as React.CSSProperties} key={`beatmap-${beatmap.id}-difficulty-osu-${index}`} />
+                                                    <div className={clsx(
+                                                        difficulty_stick_style,
+                                                        classNames?.sets?.stick
+                                                    )} style={{ "--difficulty-color": getColorFromDiffucultyFloat(beatmap.difficulty_rating) } as React.CSSProperties} key={`beatmap-${beatmap.id}-difficulty-osu-${index}`} />
                                                 ))
                                             }
                                         </div>
@@ -201,12 +212,15 @@ function BeatmapSet({ beatmapset, viewMode, classNames, classname = 'list' }: { 
                                     {osu_taiko.length > 0 && <>
                                         <OsuModeIcon mode='taiko' size={16} className={classNames?.sets?.icon} />
                                         <div className={clsx(
-                                            difficulty_stick_style,
-                                            classNames?.sets?.stick
+                                            difficulty_stick_wrapper_style,
+                                            classNames?.sets?.stickWrapper
                                         )}>
                                             {
                                                 osu_taiko.map((beatmap, index) => (
-                                                    <div className='h-full w-[6px] rounded-full bg-(--difficulty-color)' style={{ "--difficulty-color": getColorFromDiffucultyFloat(beatmap.difficulty_rating) } as React.CSSProperties} key={`beatmap-${beatmap.id}-difficulty-taiko-${index}`} />
+                                                    <div className={clsx(
+                                                        difficulty_stick_style,
+                                                        classNames?.sets?.stick
+                                                    )} style={{ "--difficulty-color": getColorFromDiffucultyFloat(beatmap.difficulty_rating) } as React.CSSProperties} key={`beatmap-${beatmap.id}-difficulty-taiko-${index}`} />
                                                 ))
                                             }
                                         </div>
@@ -214,12 +228,15 @@ function BeatmapSet({ beatmapset, viewMode, classNames, classname = 'list' }: { 
                                     {osu_catch.length > 0 && <>
                                         <OsuModeIcon mode='fruits' size={16} className={classNames?.sets?.icon} />
                                         <div className={clsx(
-                                            difficulty_stick_style,
-                                            classNames?.sets?.stick
+                                            difficulty_stick_wrapper_style,
+                                            classNames?.sets?.stickWrapper
                                         )}>
                                             {
                                                 osu_catch.map((beatmap, index) => (
-                                                    <div className='h-full w-[6px] rounded-full bg-(--difficulty-color)' style={{ "--difficulty-color": getColorFromDiffucultyFloat(beatmap.difficulty_rating) } as React.CSSProperties} key={`beatmap-${beatmap.id}-difficulty-fruits-${index}`} />
+                                                    <div className={clsx(
+                                                        difficulty_stick_style,
+                                                        classNames?.sets?.stick
+                                                    )} style={{ "--difficulty-color": getColorFromDiffucultyFloat(beatmap.difficulty_rating) } as React.CSSProperties} key={`beatmap-${beatmap.id}-difficulty-fruits-${index}`} />
                                                 ))
                                             }
                                         </div>
@@ -227,12 +244,15 @@ function BeatmapSet({ beatmapset, viewMode, classNames, classname = 'list' }: { 
                                     {osu_mania.length > 0 && <>
                                         <OsuModeIcon mode='mania' size={16} className={classNames?.sets?.icon} />
                                         <div className={clsx(
-                                            difficulty_stick_style,
-                                            classNames?.sets?.stick
+                                            difficulty_stick_wrapper_style,
+                                            classNames?.sets?.stickWrapper
                                         )}>
                                             {
                                                 osu_mania.map((beatmap, index) => (
-                                                    <div className='h-full w-[6px] rounded-full bg-(--difficulty-color)' style={{ "--difficulty-color": getColorFromDiffucultyFloat(beatmap.difficulty_rating) } as React.CSSProperties} key={`beatmap-${beatmap.id}-difficulty-mania-${index}`} />
+                                                    <div className={clsx(
+                                                        difficulty_stick_style,
+                                                        classNames?.sets?.stick
+                                                    )} style={{ "--difficulty-color": getColorFromDiffucultyFloat(beatmap.difficulty_rating) } as React.CSSProperties} key={`beatmap-${beatmap.id}-difficulty-mania-${index}`} />
                                                 ))
                                             }
                                         </div>

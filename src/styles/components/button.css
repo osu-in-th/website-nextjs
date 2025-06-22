@@ -1,3 +1,7 @@
+:root {
+    --focus-color: aqua;
+}
+
 a, button, .focus-visible, .focused-style {
     outline: 2px solid transparent;
     outline-offset: 2px;
@@ -6,7 +10,7 @@ a, button, .focus-visible, .focused-style {
 .focus-visible:focus-visible,
 button:focus-visible,
 a:focus-visible {
-    outline-color: aqua
+    outline-color: var(--focus-color)
 }
 
 button.trigger-only {

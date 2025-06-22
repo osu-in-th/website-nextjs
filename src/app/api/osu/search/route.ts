@@ -1,21 +1,8 @@
 import axios from 'axios';
 import RedisClient from '@/lib/redis';
-import { allowedOrigins } from '@/lib/cors';
 
 export async function GET(req: Request) {
     const origin = req.headers.get('origin') || "";
-
-    if (process.env.NODE_ENV !== 'development')
-    {
-        if (!origin || !allowedOrigins.includes(origin)) {
-            return new Response(JSON.stringify({ error: 'Not allowed by CORS' }), {
-                status: 403,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-        }
-    }
 
     const redis = new RedisClient();
     if (!redis.client) {
