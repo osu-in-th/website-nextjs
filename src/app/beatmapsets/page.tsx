@@ -7,11 +7,10 @@ import { ArrowsInSimpleIcon, ArrowsOutSimpleIcon, FunnelIcon, MagnifyingGlassIco
 import { Button, Checkbox, CheckboxGroup, Image, Input, Progress, Radio, RadioGroup, Select, SelectItem, SelectSection, SlotsToClasses, Spinner, Tab, Tabs, Tooltip } from '@heroui/react'
 import { Cursor, SearchFilter, SearchResult } from '@/types/beatmap'
 import BeatmapSet from '@/components/osu/beatmapset';
-import { useRouter } from 'next/navigation';
 
 function Beatmapsets() {
   const {language} = useLanguage();
-  const router = useRouter();
+  const fetched = React.useRef(false);
   const [data, setData] = React.useState<SearchResult | null>(null);
   const [viewMode, setViewMode] = React.useState<"list" | "grid">("list");
   const [fullscreenMode, setFullscreenMode] = React.useState<boolean>(false);
@@ -73,7 +72,6 @@ function Beatmapsets() {
         },
       });
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         const parsed_data: SearchResult = data;
         return parsed_data;
@@ -81,7 +79,6 @@ function Beatmapsets() {
       throw data;
     } catch (err) {
       setError(err);
-      console.error(err);
     } finally {
       setLoading(false);
       setIsSearching(false);
@@ -109,6 +106,8 @@ function Beatmapsets() {
 
   React.useEffect(()=>{
     const fetchData = async () => {
+      if (fetched.current) return;
+      fetched.current = true;
       const result = await fetchOsuSearch(filter);
       if ( result )
       {
@@ -119,7 +118,7 @@ function Beatmapsets() {
         });
       }
     }
-    fetchData();
+    if (fetched.current === false) fetchData();
   }, []);
 
   return (
