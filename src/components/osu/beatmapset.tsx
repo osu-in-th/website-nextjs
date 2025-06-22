@@ -92,14 +92,13 @@ function BeatmapSet({ beatmapset, viewMode, classNames, classname = 'list' }: { 
                         }} />
                     </Link>
                     <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         layoutId={`beatmapset-${randomId}-${beatmapset.id}-background`}
                         transition={{ duration: 1 }}
                         className={clsx(
-                            'absolute top-0 h-full z-0 pointer-events-none',
-                            viewMode === 'grid' ? 'left-0 w-full' : 'left-16 w-[calc(100%_-_4rem)]',
+                            'absolute top-0 h-full z-0 pointer-events-none w-full',
                             classNames?.backdrop?.wrapper
                         )}
                     >

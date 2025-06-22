@@ -388,7 +388,10 @@ function Beatmapsets() {
                     beatmapset={beatmapset}
                     classNames={{
                       layout: clsx(
-                        viewMode === 'grid' ? fullscreenMode ? 'sm:max-w-[calc(25%_-_0.5rem)]' : 'sm:max-w-[calc(33.333%_-_0.333rem)]' : 'max-w-full',
+                        viewMode === 'grid' ? fullscreenMode ?
+                          'max-[28rem]:max-w-full max-sm:max-w-[calc(50%_-_0.5rem)] sm:max-w-[calc(33.333%_-_0.333rem)] md:w-[calc(25%_-_0.5rem)] lg:w-[calc(20%_-_0.5rem)] xl:w-[calc(16.666%_-_0.5rem)] 2xl:w-[calc(12.5%_-_0.5rem)]' :
+                          'xs:w-full sm:w-[calc(50%_-_0.5rem)] md:w-[calc(33.333%_-_0.333rem)] xl:w-[calc(25%_-_0.5rem)]' :
+                          'max-w-full',
                         viewMode === 'list' && fullscreenMode ? 'lg:max-w-[calc(33.333%_-_0.333rem)] xl:max-w-[calc(25%_-_0.5rem)]' : '',
                       )
                     }}
