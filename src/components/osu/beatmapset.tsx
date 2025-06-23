@@ -42,14 +42,23 @@ export interface BeatmapSetClassNames {
     }
 }
 
-function BeatmapSet({ beatmapset, viewMode, classNames, classname = 'list' }: { beatmapset: BeatmapSet, classname?: string, classNames?: BeatmapSetClassNames, viewMode: 'grid' | 'list' }) {
+function BeatmapSet({ beatmapset, viewMode, classNames, focusCallback }: { beatmapset: BeatmapSet, classNames?: BeatmapSetClassNames, viewMode: 'grid' | 'list', focusCallback: (state: boolean)=>void }) {
     const randomId = React.useId();
     const router = useRouter();
     const {language} = useLanguage();
+    const [isHover, setIsHover] = React.useState<boolean>(false);
     const difficulty_stick_wrapper_style = 'flex items-center gap-[2px] h-4 w-max overflow-hidden';
     const difficulty_stick_style = 'h-full w-[6px] min-w-[6px] max-w-[6px] rounded-full bg-(--difficulty-color)';
     const beatmapHref = `/beatmapsets/${beatmapset.id}`;
     const creatorHref = `/users/${beatmapset.user_id}`;
+    const onBeatmapsetFocused = () => {
+        setIsHover(true);
+        if (focusCallback) focusCallback(true);
+    }
+    const onBeatmapsetBlured = () => {
+        setIsHover(false);
+        if (focusCallback) focusCallback(false);
+    }
     return (
         <motion.div
             key={beatmapset.id}
@@ -65,8 +74,14 @@ function BeatmapSet({ beatmapset, viewMode, classNames, classname = 'list' }: { 
             <Button className={clsx(
                 '!block !p-0 w-full h-max rounded-2xl overflow-hidden',
                 viewMode === 'grid' ? 'rounded-3xl' : '',
+                isHover && 'scale-110 !opacity-100 bg-content3 z-40',
                 classNames?.wrapper
-            )} onPress={()=>router.push(beatmapHref)}>
+            )} onPress={()=>router.push(beatmapHref)}
+                onMouseEnter={onBeatmapsetFocused}
+                onFocus={onBeatmapsetFocused}
+                onMouseLeave={onBeatmapsetBlured}
+                onBlur={onBeatmapsetBlured}
+            >
                 <motion.div
                     layoutId={`beatmapset-base-${randomId}-${beatmapset.id}`}
                     className={clsx(

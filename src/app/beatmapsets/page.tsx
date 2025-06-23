@@ -31,6 +31,7 @@ function Beatmapsets() {
   });
   const [loading, setLoading] = React.useState(true);
   const [isSearching, setIsSearching] = React.useState(false);
+  const beatmapsetsListProvider = React.useRef<HTMLDivElement>(null);
   const [error, setError] = React.useState<unknown>(undefined);
   const filter_radio_classnames: SlotsToClasses<"base" | "label" | "description" | "wrapper" | "hiddenInput" | "labelWrapper" | "control"> = {
     label: "text-xs",
@@ -295,7 +296,7 @@ function Beatmapsets() {
         transition={{delay:.1}}
         layoutId='beatmapsets-sort'
         className={clsx(
-          'w-full flex items-center justify-between md:px-4 mt-3 -mb-2 z-10',
+          'w-full flex items-center justify-between md:px-4 mt-3 -mb-4 z-10',
           fullscreenMode ? '' : 'max-w-4xl',
         )}
       >
@@ -366,7 +367,7 @@ function Beatmapsets() {
           transition={{duration: 0.3}}
           layoutId='beatmapsets-list'
           className={clsx(
-            'overflow-hidden w-full py-1',
+            'overflow-hidden w-full py-2',
             fullscreenMode ? 'mx-auto' : 'mx-auto max-w-4xl',
           )}
         >
@@ -381,7 +382,7 @@ function Beatmapsets() {
           >
           {
             data && data.beatmapsets.length > 0 ? (
-              <div className='flex flex-wrap w-full gap-2'>
+              <div className='flex flex-wrap w-full gap-2' ref={beatmapsetsListProvider}>
                 {data.beatmapsets.map((beatmapset, index) => (
                   <BeatmapSet
                     key={`beatmapset-${index}-${beatmapset.id}`}
@@ -394,6 +395,13 @@ function Beatmapsets() {
                           'max-w-full',
                         viewMode === 'list' && fullscreenMode ? 'lg:max-w-[calc(33.333%_-_0.333rem)] xl:max-w-[calc(25%_-_0.5rem)]' : '',
                       )
+                    }}
+                    focusCallback={(state: boolean)=>{
+                      if ( beatmapsetsListProvider.current )
+                      {
+                        if (state) beatmapsetsListProvider.current.classList.add('beatmapset-focus')
+                        else beatmapsetsListProvider.current.classList.remove('beatmapset-focus')
+                      }
                     }}
                     viewMode={viewMode}
                   />
