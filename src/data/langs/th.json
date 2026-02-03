@@ -154,13 +154,26 @@
                 "translators": "นักแปลภาษา",
                 "contributors": "ผู้ร่วมพัฒนา",
                 "artworks": "ผลงานศิลปะ"
-            }
+            },
+            "thankforallcontributors": "ขอบคุณสำหรับผู้ร่วมพัฒนาทุกคน!"
         }
     },
     "footer": {
         "made_with_love_by_community": "สร้างด้วย ❤️ จากชุมชน!",
+        "disclaimer": {
+            "not_from_peppy": "osu.in.th ไม่ใช่เว็บไซต์ทางการของ Osu! หรือ Peppy แต่อย่างใด",
+            "just_a_mirror": "osu.in.th เป็นเพียง mirror และเว็บไซต์ที่สร้างโดยชุมชนเล็กๆในไทย"
+        },
         "links": {
-            "status": "สถานะบริการ"
+            "status": "สถานะบริการ",
+            "osu": {
+                "rules": "กฎ",
+                "terms": "ข้อกำหนดการให้บริการ",
+                "privacy": "นโยบายความเป็นส่วนตัว",
+                "copyright": "นโยบายลิขสิทธิ์",
+                "server_status": "สถานะเซิร์ฟเวอร์",
+                "source_code": "ซอร์สโค้ด"
+            }
         }
     }
 }

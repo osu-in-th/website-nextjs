@@ -9,6 +9,7 @@ import { useLanguage } from '@/contexts/languageContext'
 import { getColorFromDiffucultyFloat } from '@/utils/osu/color'
 import clsx from 'clsx'
 import { useRouter } from 'next/navigation';
+import { useBeatmapset } from '@/contexts/beatmapsetContext';
 
 export interface BeatmapSetClassNames {
     layout?: string;
@@ -46,6 +47,7 @@ function BeatmapSet({ beatmapset, viewMode, classNames, focusCallback }: { beatm
     const randomId = React.useId();
     const router = useRouter();
     const {language} = useLanguage();
+    const { setSetFocused } = useBeatmapset();
     const [isHover, setIsHover] = React.useState<boolean>(false);
     const difficulty_stick_wrapper_style = 'flex items-center gap-[2px] h-4 w-max overflow-hidden';
     const difficulty_stick_style = 'h-full w-[6px] min-w-[6px] max-w-[6px] rounded-full bg-(--difficulty-color)';
@@ -53,10 +55,12 @@ function BeatmapSet({ beatmapset, viewMode, classNames, focusCallback }: { beatm
     const creatorHref = `/users/${beatmapset.user_id}`;
     const onBeatmapsetFocused = () => {
         setIsHover(true);
+        // if (setSetFocused) setSetFocused(true);
         if (focusCallback) focusCallback(true);
     }
     const onBeatmapsetBlured = () => {
         setIsHover(false);
+        // if (setSetFocused) setSetFocused(false);
         if (focusCallback) focusCallback(false);
     }
     return (
@@ -76,7 +80,7 @@ function BeatmapSet({ beatmapset, viewMode, classNames, focusCallback }: { beatm
                 viewMode === 'grid' ? 'rounded-3xl' : '',
                 isHover && 'scale-110 !opacity-100 bg-content3 z-40',
                 classNames?.wrapper
-            )} onPress={()=>router.push(beatmapHref)}
+            )}  onPress={()=>router.push(beatmapHref)}
                 onMouseEnter={onBeatmapsetFocused}
                 onFocus={onBeatmapsetFocused}
                 onMouseLeave={onBeatmapsetBlured}

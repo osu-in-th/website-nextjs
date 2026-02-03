@@ -11,7 +11,8 @@
 
 /* Default Dark */
 :root {
-  --background: #171717;
+  --baseground: #000;
+  --background: color-mix(in lab, var(--baseground), hsl(var(--osu-theme-secondary)) 6%);
   --foreground: #ffffff;
 }
 

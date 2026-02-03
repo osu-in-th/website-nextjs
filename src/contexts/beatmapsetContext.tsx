@@ -9,18 +9,32 @@ export interface BeatmapSetContext {
 }
 
 const BeatmapsetContext = React.createContext<{
+    layoutId?: string;
+    setFocused: boolean;
     beatmapset: BeatmapSetContext | null;
     setBeatmapset: React.Dispatch<React.SetStateAction<BeatmapSetContext | null>>;
+    setSetFocused: React.Dispatch<React.SetStateAction<boolean>>;
+    setLayoutId: React.Dispatch<React.SetStateAction<string>>;
 }>({
+    layoutId: "",
+    setFocused: false,
     beatmapset: null,
-    setBeatmapset: () => {}
+    setBeatmapset: () => {},
+    setSetFocused: () => {},
+    setLayoutId: () => {},
 });
 
 export const BeatmapsetContextProvider = ({children}: {children: React.ReactNode}) => {
     const [beatmapset, setBeatmapset] = React.useState<BeatmapSetContext | null>(null);
+    const [setFocused, setSetFocused] = React.useState<boolean>(false);
+    const [layoutId, setLayoutId] = React.useState<string>("");
 
     return (
-        <BeatmapsetContext.Provider value={{ beatmapset, setBeatmapset }}>
+        <BeatmapsetContext.Provider value={{
+            layoutId, setLayoutId,
+            beatmapset, setBeatmapset,
+            setFocused, setSetFocused
+        }}>
             {children}
             {
                 beatmapset &&

@@ -7,9 +7,11 @@ import { ArrowsInSimpleIcon, ArrowsOutSimpleIcon, FunnelIcon, MagnifyingGlassIco
 import { Button, Checkbox, CheckboxGroup, Image, Input, Progress, Radio, RadioGroup, Select, SelectItem, SelectSection, SlotsToClasses, Spinner, Tab, Tabs, Tooltip } from '@heroui/react'
 import { Cursor, SearchFilter, SearchResult } from '@/types/beatmap'
 import BeatmapSet from '@/components/osu/beatmapset';
+import { useBeatmapset } from '@/contexts/beatmapsetContext';
 
 function Beatmapsets() {
   const {language} = useLanguage();
+  const { setFocused, setSetFocused } = useBeatmapset();
   const fetched = React.useRef(false);
   const [data, setData] = React.useState<SearchResult | null>(null);
   const [viewMode, setViewMode] = React.useState<"list" | "grid">("list");

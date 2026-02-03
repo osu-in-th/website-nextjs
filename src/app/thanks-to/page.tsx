@@ -2,20 +2,20 @@
 
 import React, { Fragment } from 'react'
 import Link from "next/link"
-import { useRouter } from 'next/navigation'
-import { Avatar, AvatarIcon, Button, Chip, CircularProgress, Image, Tooltip } from '@heroui/react'
+import { Avatar, Button, Chip, CircularProgress, Image, Tooltip } from '@heroui/react'
 import communityArts from "@/data/community-arts.json"
 import { useLanguage } from '@/contexts/languageContext'
 import { ArrowUpRightIcon, CaretLeftIcon, CaretRightIcon, HeartIcon } from "@phosphor-icons/react/dist/ssr"
-import { NextButton, PrevButton, usePrevNextButtons } from "@/components/carousel/emblaArrowButtons"
+import { usePrevNextButtons } from "@/components/carousel/emblaArrowButtons"
 import { DotButton, useDotButton } from "@/components/carousel/emblaDotButton"
 import useEmblaCarousel from "embla-carousel-react"
 import { Contributor } from '@/types/contributor'
 import { languages } from '@/utils/i18n'
+import FallingText from '@/components/ui/FallingText'
+import TextType from '@/components/ui/TextType'
 
 function ThanksToCommunity() {
     const {language} = useLanguage();
-    const router = useRouter();
     const [hero_bg_image, setHeroBgImage] = React.useState(communityArts[0]);
     const [loadingContributors, setLoadingContributors] = React.useState(true);
     const [contributors, setContributors] = React.useState<Contributor[]>([]);
@@ -50,7 +50,7 @@ function ThanksToCommunity() {
                 <Image src={"https://static.osu.in.th/images/"+hero_bg_image.filename} className="w-full h-full object-cover rounded-none" classNames={{
                     wrapper: "h-full w-full !max-w-none overflow-hidden rounded-none rounded-b-4xl"
                 }} />
-                <div className="absolute z-10 top-0 left-0 w-full h-full bg-gradient-to-t from-transparent to-black/80" />
+                <div className="absolute z-10 top-0 left-0 w-full h-full bg-gradient-to-t from-transparent to-[--background]/80" />
                 <div className="absolute z-10 top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-background" />
             </div>
             <div className="mt-12" />
@@ -153,15 +153,46 @@ function ThanksToCommunity() {
                 <section className='w-full flex max-[32rem]:flex-col max-[32rem]:items-center max-[32rem]:gap-8 justify-around gap-4 mt-12'>
                     <div className='flex flex-col max-[32rem]:w-full gap-2 sm:p-8'>
                         <h1 className='text-4xl font-bold'>Default User Avatar</h1>
-                        <p>by <Link href="https://www.reddit.com/user/Kiraise_Mangi/" target='_blank'>Kiraise_Mangi <Chip size='sm' className='text-xs bg-amber-700' endContent={<ArrowUpRightIcon weight='bold' />}>Reddit</Chip></Link></p>
+                        <div>by <Link href="https://www.reddit.com/user/Kiraise_Mangi/" target='_blank'>Kiraise_Mangi <Chip size='sm' className='text-xs bg-amber-700' endContent={<ArrowUpRightIcon weight='bold' />}>Reddit</Chip></Link></div>
                     </div>
                     <div>
                         <Image className='max-[32rem]:max-h-52' src="https://static.osu.in.th/images/default-userprofile.png" />
-                        <p className='text-xs text-foreground/70 mt-2'>
+                        <div className='text-xs text-foreground/70 mt-2'>
                             <Link href="https://www.reddit.com/r/osugame/comments/1camq31/osu_default_profile_picture_fanart/" target='_blank'>Ref: <Chip size='sm' className='text-xs bg-amber-700' endContent={<ArrowUpRightIcon weight='bold' />}>Reddit</Chip></Link>
-                        </p>
+                        </div>
                     </div>
                 </section>
+            </section>
+            <section className='w-full max-w-4xl relative z-10 p-6 flex flex-col gap-2 mt-32 -mb-12'>
+                {
+                    <TextType
+                        text={[language.data.pages.thanks_for_everyone.thankforallcontributors]}
+                        typingSpeed={35}
+                        pauseDuration={2000}
+                        deletingSpeed={40}
+                        loop={false}
+                        showCursor={true}
+                        cursorBlinkDuration={0.1}
+                        cursorCharacter="█"
+                        variableSpeed={{min: 10, max: 110}}
+                        className='text-4xl font-bold text-center'
+                    />
+                }
+                <div className='w-full h-64'>
+                    {
+                        loadingContributors ? <CircularProgress isIndeterminate className='m-4' /> :
+                        <FallingText
+                            text={contributors.map((contributor) => contributor.login).join(" ")}
+                            highlightWords={["ponlponl123"]}
+                            trigger="auto"
+                            backgroundColor="transparent"
+                            wireframes={false}
+                            gravity={0.32}
+                            fontSize="1.24rem"
+                            mouseConstraintStiffness={1.2}
+                        />
+                    }
+                </div>
             </section>
         </>
     )

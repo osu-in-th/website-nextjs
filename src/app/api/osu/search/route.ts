@@ -4,23 +4,15 @@ import RedisClient from '@/lib/redis';
 export async function GET(req: Request) {
     const origin = req.headers.get('origin') || "";
 
-    const redis = new RedisClient();
-    if (!redis.client) {
-        return new Response(JSON.stringify({ error: 'Redis client not initialized' }), {
-            status: 500,
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': origin,
-            },
-        });
-    }
-
+    const redis = RedisClient.redis;
+    
     const cookie = req.headers.get('cookie') || '';
     const url = new URL(req.url);
     const cursor_string = url.searchParams.get('cursor_string') ?? '';
     if (cookie && !cookie.includes('osu_session')) {
         const cacheKey = `osu_search:browse${cursor_string? `:${cursor_string}` : ''}`;
-        const cached = await redis.client.get(cacheKey);
+        // Use slave for read operations
+        const cached = await redis.get(cacheKey);
         if (cached) {
             return new Response(cached, {
                 status: 200,
@@ -40,7 +32,8 @@ export async function GET(req: Request) {
             },
         });
         const data = osuRes.data;
-        await redis.client.set(cacheKey, JSON.stringify(data), 'EX', 60 * 30); // 30 min cache
+        // Use master for write operations
+        await redis.set(cacheKey, JSON.stringify(data), 'EX', 60 * 30); // 30 min cache
         return new Response(JSON.stringify(data), {
             status: 200,
             headers: {
@@ -76,7 +69,8 @@ export async function GET(req: Request) {
         "&cursor_string=" + encodeURIComponent(cursor_string);
 
     const cacheKey = `osu_search:${full_query}`;
-    const cached = await redis.client.get(cacheKey);
+    // Use slave for read operations
+    const cached = await redis.get(cacheKey);
     if (cached) {
         return new Response(cached, {
             status: 200,
@@ -94,7 +88,8 @@ export async function GET(req: Request) {
     });
     const data = osuRes.data;
 
-    await redis.client.set(cacheKey, JSON.stringify(data), 'EX', 60 * 5); // 5 min cache
+    // Use master for write operations
+    await redis.set(cacheKey, JSON.stringify(data), 'EX', 60 * 5); // 5 min cache
 
     return new Response(JSON.stringify(data), {
         status: 200,

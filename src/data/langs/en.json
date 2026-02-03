@@ -154,13 +154,26 @@
                 "translators": "Translators",
                 "contributors": "Contributors",
                 "artworks": "Artworks"
-            }
+            },
+            "thankforallcontributors": "Thank You For All Contributors!"
         }
     },
     "footer": {
         "made_with_love_by_community": "Made with ❤️ by community!",
+        "disclaimer": {
+            "not_from_peppy": "osu.in.th is not an official website of Osu! or Peppy.",
+            "just_a_mirror": "osu.in.th is just a mirror and website created by a small community in Thailand."
+        },
         "links": {
-            "status": "Service Status"
+            "status": "Service Status",
+            "osu": {
+                "rules": "Rules",
+                "terms": "Terms",
+                "privacy": "Privacy",
+                "copyright": "Copyright",
+                "server_status": "Server Status",
+                "source_code": "Source Code"
+            }
         }
     }
 }
